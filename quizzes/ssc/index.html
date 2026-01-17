@@ -21,11 +21,6 @@
       text-align: center;
     }
 
-    h1 {
-      margin-bottom: 10px;
-    }
-
-    /* BACK BUTTON (TOP LEFT) */
     .back-home {
       position: absolute;
       top: 20px;
@@ -39,7 +34,6 @@
       font-size: 14px;
     }
 
-    /* JOIN BUTTONS */
     .join-buttons {
       margin-top: 15px;
     }
@@ -59,82 +53,87 @@
     .whatsapp { background: #25d366; }
 
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
-      padding: 30px 20px;
+      padding: 40px 20px;
     }
 
-    .quiz-list {
-      list-style: none;
-      padding: 0;
+    .exams {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
     }
 
-    .quiz-list li {
+    .exam {
       background: white;
-      margin-bottom: 12px;
-      padding: 15px 20px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .quiz-list a {
-      text-decoration: none;
-      color: #2a5298;
-      font-weight: bold;
-      display: block;
-    }
-
-    footer {
+      padding: 25px;
+      border-radius: 10px;
       text-align: center;
-      font-size: 14px;
-      color: #777;
-      margin-top: 40px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .exam a {
+      display: inline-block;
+      margin-top: 15px;
+      text-decoration: none;
+      color: white;
+      background: #2a5298;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header>
+<header>
+  <a class="back-home" href="/">BACK TO HOME</a>
 
-    <!-- BACK TO HOME -->
-    <a class="back-home" href="/">BACK TO HOME</a>
+  <h1>SSC MOCK TESTS</h1>
+  <p>Select an exam to continue</p>
 
-    <h1>SSC MOCK TEST</h1>
-    <p>Select a test to start practice</p>
-
-    <!-- JOIN BUTTONS -->
-    <div class="join-buttons">
-      <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">
-        JOIN TELEGRAM
-      </a>
-      <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">
-        JOIN WHATSAPP
-      </a>
-    </div>
-  </header>
-
-  <!-- QUIZ LIST -->
-  <div class="container">
-    <ul class="quiz-list">
-      <li>
-        <a href="/quizzes/ssc/dp-constable-computer-1.html">
-          DP Constable – Computer – Test 1
-        </a>
-      </li>
-
-      <li>
-        <a href="/quizzes/ssc/dp-constable-computer-2.html">
-          DP Constable – Computer – Test 2
-        </a>
-      </li>
-    </ul>
+  <div class="join-buttons">
+    <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">JOIN TELEGRAM</a>
+    <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   </div>
+</header>
 
-  <footer>
-    © 2026 SSC JOURNEY TEST
-  </footer>
+<div class="container">
+  <div class="exams">
+
+    <div class="exam">
+      <h3>SSC CGL</h3>
+      <a href="/quizzes/ssc/cgl/">OPEN</a>
+    </div>
+
+    <div class="exam">
+      <h3>SSC CHSL</h3>
+      <a href="/quizzes/ssc/chsl/">OPEN</a>
+    </div>
+
+    <div class="exam">
+      <h3>SSC MTS</h3>
+      <a href="/quizzes/ssc/mts/">OPEN</a>
+    </div>
+
+    <div class="exam">
+      <h3>DELHI POLICE</h3>
+      <a href="/quizzes/ssc/delhi-police/">OPEN</a>
+    </div>
+
+    <div class="exam">
+      <h3>CPO</h3>
+      <a href="/quizzes/ssc/cpo/">OPEN</a>
+    </div>
+
+    <div class="exam">
+      <h3>SELECTION POST</h3>
+      <a href="/quizzes/ssc/selection-post/">OPEN</a>
+    </div>
+
+  </div>
+</div>
 
 </body>
 </html>
