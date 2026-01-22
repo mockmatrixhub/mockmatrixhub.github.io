@@ -21,21 +21,6 @@ header{
   text-align:center;
   color:#fff;
 }
-#searchBox{
-  width:100%;
-  max-width:420px;
-  padding:12px 16px;
-  margin:0 auto 25px;
-  display:block;
-  border-radius:25px;
-  border:1.5px solid #c7d2fe;
-  font-size:15px;
-  outline:none;
-}
-
-#searchBox:focus{
-  border-color:#1e3c72;
-}
 
 /* BACK BUTTON */
 .back{
@@ -69,7 +54,6 @@ header{
 .filters{
   margin-top:18px;
 }
-
 .filter-row{
   display:flex;
   justify-content:center;
@@ -77,7 +61,6 @@ header{
   gap:10px;
   margin-bottom:10px;
 }
-
 .filter-btn{
   padding:9px 18px;
   border-radius:20px;
@@ -87,12 +70,10 @@ header{
   font-size:14px;
   background:#e0e7ff;
   color:#1e3c72;
-  transition:0.2s;
 }
-
 .filter-btn.active{
-  background:#16a34a;   /* visible green */
-  color:#ffffff;
+  background:#16a34a;
+  color:#fff;
 }
 
 /* CONTENT */
@@ -101,55 +82,57 @@ header{
   margin:auto;
   padding:40px 20px;
 }
-  <input
-  type="text"
-  id="searchBox"
-  placeholder="Search quiz..."
-  onkeyup="applySearch()"
-/>
 
+/* SEARCH */
+#searchBox{
+  width:100%;
+  max-width:420px;
+  padding:12px 16px;
+  margin:0 auto 25px;
+  display:block;
+  border-radius:25px;
+  border:1.5px solid #c7d2fe;
+  font-size:15px;
+}
+#searchBox:focus{
+  border-color:#1e3c72;
+  outline:none;
+}
 
-/* QUIZ GRID */
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:20px;
 }
 
-/* QUIZ CARD */
+/* QUIZ CARD – SAME SIZE AS OLD */
 .quiz{
+  background:#eef2ff;
   border-radius:12px;
-  padding:18px;              /* reduced */
-  text-align:center;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-  min-height:140px;          /* keeps size consistent */
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  background:#eef2ff; /* light bluish */
-  border-radius:12px;
+  padding:22px;
   text-align:center;
   box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
-
-
-
 .quiz a{
   text-decoration:none;
   color:#1e3c72;
   font-weight:bold;
   font-size:15px;
-}
-  .quiz-info{
-  display:flex;
-  justify-content:space-between;
-  padding-top:6px;
-  margin-top:8px;
-  border-top:1px solid rgba(0,0,0,0.12);
-  font-size:13px;
-  font-weight:600;
+  display:block;
 }
 
+/* QUIZ INFO (BOTTOM, COMPACT) */
+.quiz-info{
+  margin-top:10px;
+  padding-top:6px;
+  border-top:1px solid rgba(0,0,0,0.15);
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  font-weight:600;
+  color:#444;
+}
 </style>
 </head>
 
@@ -164,131 +147,106 @@ header{
     <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   </div>
 
-  <!-- FILTERS BELOW JOIN -->
   <div class="filters">
-
     <div class="filter-row">
-      <button class="filter-btn" onclick="setYear('2025',this)">2025</button>
-      <button class="filter-btn" onclick="setYear('2026',this)">2026</button>
+      <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
+      <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
     </div>
-
     <div class="filter-row">
-      <button class="filter-btn" onclick="setSubject('MATHS',this)">MATHS</button>
-      <button class="filter-btn" onclick="setSubject('REASONING',this)">REASONING</button>
-      <button class="filter-btn" onclick="setSubject('COMPUTER',this)">COMPUTER</button>
-      <button class="filter-btn" onclick="setSubject('GK',this)">GK</button>
+      <button class="filter-btn" onclick="toggleSubject('MATHS',this)">MATHS</button>
+      <button class="filter-btn" onclick="toggleSubject('REASONING',this)">REASONING</button>
+      <button class="filter-btn" onclick="toggleSubject('COMPUTER',this)">COMPUTER</button>
+      <button class="filter-btn" onclick="toggleSubject('GK',this)">GK</button>
     </div>
-
   </div>
 </header>
 
 <div class="container">
-<input
-  type="text"
-  id="searchBox"
-  placeholder="Search quiz..."
-  onkeyup="applySearch()"
-/>
 
- 
-  <!-- QUIZ LIST (ENABLE WHEN UPLOADED) -->
-  
-  <div class="grid" id="quizGrid">
- <div class="quiz">
-  <a href="cgl-2025-maths-subject-1.html">
-    SSC CGL 2025 MATHS SUBJECT WISE TEST 1
-  </a>
-  <div class="quiz-info">
-    <span>20 Questions</span>
-    <span>20 Min</span>
-  </div>
-</div>
+<input type="text" id="searchBox" placeholder="Search quiz..." onkeyup="applyFilters()">
 
-<div class="quiz">
-  <a href="cgl-2025-maths-subject-2.html">
-    SSC CGL 2025 MATHS SUBJECT WISE TEST 2
-  </a>
-  <div class="quiz-info">
-    <span>25 Questions</span>
-    <span>25 Min</span>
-  </div>
-</div>
+<div class="grid" id="quizGrid">
 
-<div class="quiz">
-  <a href="cgl-2025-reasoning-subject-1.html">
-    SSC CGL 2025 REASONING SUBJECT WISE TEST 1
-  </a>
-  <div class="quiz-info">
-    <span>20 Questions</span>
-    <span>20 Min</span>
+  <div class="quiz">
+    <a href="#">SSC CGL 2025 MATHS SUBJECT WISE TEST 1</a>
+    <div class="quiz-info">
+      <span>20 Questions</span><span>20 Min</span>
+    </div>
   </div>
-</div>
 
-<div class="quiz">
-  <a href="cgl-2026-gk-subject-1.html">
-    SSC CGL 2026 GK SUBJECT WISE TEST 1
-  </a>
-  <div class="quiz-info">
-    <span>30 Questions</span>
-    <span>30 Min</span>
+  <div class="quiz">
+    <a href="#">SSC CGL 2025 MATHS SUBJECT WISE TEST 2</a>
+    <div class="quiz-info">
+      <span>25 Questions</span><span>25 Min</span>
+    </div>
   </div>
-</div>
 
-<div class="quiz">
-  <a href="cgl-2026-computer-subject-1.html">
-    SSC CGL 2026 COMPUTER SUBJECT WISE TEST 1
-  </a>
-  <div class="quiz-info">
-    <span>15 Questions</span>
-    <span>15 Min</span>
+  <div class="quiz">
+    <a href="#">SSC CGL 2025 REASONING SUBJECT WISE TEST 1</a>
+    <div class="quiz-info">
+      <span>20 Questions</span><span>20 Min</span>
+    </div>
   </div>
+
+  <div class="quiz">
+    <a href="#">SSC CGL 2026 GK SUBJECT WISE TEST 1</a>
+    <div class="quiz-info">
+      <span>30 Questions</span><span>30 Min</span>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <a href="#">SSC CGL 2026 COMPUTER SUBJECT WISE TEST 1</a>
+    <div class="quiz-info">
+      <span>15 Questions</span><span>15 Min</span>
+    </div>
+  </div>
+
 </div>
 </div>
 
 <script>
-  
 let selectedYear = "";
 let selectedSubject = "";
 
-function setYear(year, btn){
-  selectedYear = year;
-  activate(btn);
+function toggleYear(year, btn){
+  if(selectedYear === year){
+    selectedYear = "";
+    btn.classList.remove("active");
+  }else{
+    selectedYear = year;
+    clearRow(btn);
+    btn.classList.add("active");
+  }
   applyFilters();
 }
 
-function setSubject(subject, btn){
-  selectedSubject = subject;
-  activate(btn);
+function toggleSubject(subject, btn){
+  if(selectedSubject === subject){
+    selectedSubject = "";
+    btn.classList.remove("active");
+  }else{
+    selectedSubject = subject;
+    clearRow(btn);
+    btn.classList.add("active");
+  }
   applyFilters();
 }
 
-function activate(btn){
+function clearRow(btn){
   btn.parentElement.querySelectorAll(".filter-btn")
     .forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
 }
 
-function applySearch(){
-  applyFilters();
-}
 function applyFilters(){
-  const searchText =
-    document.getElementById("searchBox").value.toLowerCase();
+  const search = document.getElementById("searchBox").value.toLowerCase();
 
   document.querySelectorAll(".quiz").forEach(q=>{
     const text = q.innerText.toLowerCase();
-
-    const yearOk =
-      !selectedYear || text.includes(selectedYear.toLowerCase());
-
-    const subjectOk =
-      !selectedSubject || text.includes(selectedSubject.toLowerCase());
-
-    const searchOk =
-      !searchText || text.includes(searchText);
-
-    q.style.display =
-      (yearOk && subjectOk && searchOk) ? "block" : "none";
+    const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
+    const sOk = !selectedSubject || text.includes(selectedSubject.toLowerCase());
+    const searchOk = !search || text.includes(search);
+    q.style.display = (yOk && sOk && searchOk) ? "block" : "none";
   });
 }
 </script>
