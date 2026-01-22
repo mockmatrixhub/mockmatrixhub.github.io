@@ -99,39 +99,55 @@ header{
   outline:none;
 }
 
-/* GRID */
+/* GRID – ONE BOX PER ROW */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
+  grid-template-columns:1fr;
+  gap:16px;
 }
 
-/* QUIZ CARD – SAME SIZE AS OLD */
+/* QUIZ CARD – LIST STYLE */
 .quiz{
-  background:#eef2ff;
+  background:#ffffff;
   border-radius:12px;
-  padding:22px;
-  text-align:center;
+  padding:18px 20px;
   box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-.quiz a{
-  text-decoration:none;
-  color:#1e3c72;
-  font-weight:bold;
-  font-size:15px;
-  display:block;
-}
-
-/* QUIZ INFO (BOTTOM, COMPACT) */
-.quiz-info{
-  margin-top:10px;
-  padding-top:6px;
-  border-top:1px solid rgba(0,0,0,0.15);
   display:flex;
   justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+
+/* LEFT CONTENT */
+.quiz-left{
+  flex:1;
+}
+
+.quiz-title{
+  font-size:15px;
+  font-weight:bold;
+  color:#1e3c72;
+  margin-bottom:6px;
+}
+
+.quiz-info{
   font-size:13px;
-  font-weight:600;
-  color:#444;
+  color:#555;
+}
+
+/* START BUTTON */
+.start-btn{
+  background:#1e3c72;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.start-btn:hover{
+  opacity:0.9;
 }
 </style>
 </head>
@@ -168,38 +184,43 @@ header{
 <div class="grid" id="quizGrid">
 
   <div class="quiz">
-    <a href="#">SSC CGL 2025 MATHS SUBJECT WISE TEST 1</a>
-    <div class="quiz-info">
-      <span>20 Questions</span><span>20 Min</span>
+    <div class="quiz-left">
+      <div class="quiz-title">SSC CGL 2025 MATHS SUBJECT WISE TEST 1</div>
+      <div class="quiz-info">20 Questions • 20 Min</div>
     </div>
+    <a href="#" class="start-btn">START</a>
   </div>
 
   <div class="quiz">
-    <a href="#">SSC CGL 2025 MATHS SUBJECT WISE TEST 2</a>
-    <div class="quiz-info">
-      <span>25 Questions</span><span>25 Min</span>
+    <div class="quiz-left">
+      <div class="quiz-title">SSC CGL 2025 MATHS SUBJECT WISE TEST 2</div>
+      <div class="quiz-info">25 Questions • 25 Min</div>
     </div>
+    <a href="#" class="start-btn">START</a>
   </div>
 
   <div class="quiz">
-    <a href="#">SSC CGL 2025 REASONING SUBJECT WISE TEST 1</a>
-    <div class="quiz-info">
-      <span>20 Questions</span><span>20 Min</span>
+    <div class="quiz-left">
+      <div class="quiz-title">SSC CGL 2025 REASONING SUBJECT WISE TEST 1</div>
+      <div class="quiz-info">20 Questions • 20 Min</div>
     </div>
+    <a href="#" class="start-btn">START</a>
   </div>
 
   <div class="quiz">
-    <a href="#">SSC CGL 2026 GK SUBJECT WISE TEST 1</a>
-    <div class="quiz-info">
-      <span>30 Questions</span><span>30 Min</span>
+    <div class="quiz-left">
+      <div class="quiz-title">SSC CGL 2026 GK SUBJECT WISE TEST 1</div>
+      <div class="quiz-info">30 Questions • 30 Min</div>
     </div>
+    <a href="#" class="start-btn">START</a>
   </div>
 
   <div class="quiz">
-    <a href="#">SSC CGL 2026 COMPUTER SUBJECT WISE TEST 1</a>
-    <div class="quiz-info">
-      <span>15 Questions</span><span>15 Min</span>
+    <div class="quiz-left">
+      <div class="quiz-title">SSC CGL 2026 COMPUTER SUBJECT WISE TEST 1</div>
+      <div class="quiz-info">15 Questions • 15 Min</div>
     </div>
+    <a href="#" class="start-btn">START</a>
   </div>
 
 </div>
@@ -240,13 +261,12 @@ function clearRow(btn){
 
 function applyFilters(){
   const search = document.getElementById("searchBox").value.toLowerCase();
-
   document.querySelectorAll(".quiz").forEach(q=>{
     const text = q.innerText.toLowerCase();
     const yOk = !selectedYear || text.includes(selectedYear.toLowerCase());
     const sOk = !selectedSubject || text.includes(selectedSubject.toLowerCase());
     const searchOk = !search || text.includes(search);
-    q.style.display = (yOk && sOk && searchOk) ? "block" : "none";
+    q.style.display = (yOk && sOk && searchOk) ? "flex" : "none";
   });
 }
 </script>
