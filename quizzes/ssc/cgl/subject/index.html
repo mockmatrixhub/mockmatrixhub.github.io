@@ -1,274 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SUBJECT WISE MOCK TESTS | SSC Journey Test</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>SUBJECT WISE MOCK TESTS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4B6V3MV51Q');
+</script>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-4B6V3MV51Q');
-  </script>
+<style>
+body{
+  margin:0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background:#eff6ff; /* Premium light blue tint */
+  color:#334155;
+}
 
-  <style>
-    :root {
-      --primary: #2563eb;
-      --secondary: #1e40af;
-      --dark: #0f172a;
-      --light: #f8fafc;
-      --accent: #22c55e; /* Success Green for Active Filters */
-    }
+/* HEADER - Premium Gradient & Spacing */
+header{
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  padding:40px 20px 45px;
+  position:relative;
+  text-align:center;
+  color:#fff;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+}
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: #eff6ff;
-      color: #334155;
-      line-height: 1.6;
-    }
+/* BACK BUTTON - Premium Glass look */
+.back{
+  position:absolute;
+  top:12px;
+  left:14px;
+  background: rgba(255, 255, 255, 0.2);
+  color:#ffffff;
+  padding:8px 16px;
+  border-radius:20px;
+  text-decoration:none;
+  font-weight:bold;
+  font-size:12px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.3);
+}
 
-    /* HEADER */
-    header {
-      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-      color: white;
-      padding: 60px 20px 110px;
-      text-align: center;
-      border-bottom-left-radius: 40px;
-      border-bottom-right-radius: 40px;
-      position: relative;
-      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
-    }
+/* JOIN BUTTONS - Modern Pills */
+.join a{
+  display:inline-block;
+  margin:6px;
+  padding:10px 20px;
+  border-radius:50px;
+  font-weight:bold;
+  font-size:13px;
+  text-decoration:none;
+  color:#fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: 0.3s;
+}
+.telegram{background:#0088cc;}
+.whatsapp{background:#25d366;}
+.join a:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-    /* BACK BUTTON */
-    .back {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 12px;
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.3);
-      transition: 0.3s;
-      z-index: 10;
-    }
-    .back:hover { background: white; color: var(--primary); }
+/* FILTERS */
+.filters{
+  margin-top:25px;
+}
+.filter-row{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:12px;
+}
+.filter-btn{
+  padding:9px 18px;
+  border-radius:20px;
+  border: 1px solid #e2e8f0;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:13px;
+  background:#ffffff;
+  color:#1e40af;
+  transition: 0.3s;
+}
+.filter-btn.active{
+  background:#22c55e; /* Active green */
+  color:#fff;
+  border-color: #22c55e;
+  box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+}
 
-    header h1 {
-      font-size: 28px;
-      margin: 10px 0;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
+/* CONTENT */
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:40px 20px;
+}
 
-    /* JOIN BUTTONS */
-    .join a {
-      display: inline-flex;
-      align-items: center;
-      margin: 6px;
-      padding: 10px 20px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 13px;
-      color: white;
-      transition: 0.3s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    .telegram { background: #0088cc; }
-    .whatsapp { background: #25d366; }
-    .join a:hover { transform: translateY(-2px); filter: brightness(1.1); }
+/* SEARCH */
+#searchBox{
+  width:100%;
+  max-width:420px;
+  padding:14px 20px;
+  margin:0 auto 30px;
+  display:block;
+  border-radius:30px;
+  border:1px solid #cbd5e1;
+  font-size:15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  outline: none;
+}
+#searchBox:focus{
+  border-color:#3b82f6;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+}
 
-    /* FILTERS SECTION */
-    .filters {
-      margin-top: 20px;
-      position: relative;
-      z-index: 10;
-    }
-    .filter-row {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .filter-btn {
-      padding: 8px 18px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.3);
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 13px;
-      background: rgba(255,255,255,0.1);
-      color: white;
-      transition: 0.3s;
-    }
-    .filter-btn.active {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-      box-shadow: 0 4px 10px rgba(34, 197, 94, 0.4);
-    }
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
 
-    /* CONTENT CONTAINER */
-    .container {
-      max-width: 900px;
-      margin: -50px auto 50px;
-      padding: 0 20px;
-      position: relative;
-      z-index: 5;
-    }
+/* QUIZ CARD - Premium Modern */
+.quiz{
+  background:#ffffff;
+  border-radius:16px;
+  padding:20px 25px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.04);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  border: 1px solid #f1f5f9;
+  transition: 0.3s;
+}
+.quiz:hover { transform: scale(1.01); border-color: #3b82f6; }
 
-    /* SEARCH BOX */
-    #searchBox {
-      width: 100%;
-      max-width: 500px;
-      padding: 14px 20px;
-      margin: 0 auto 30px;
-      display: block;
-      border-radius: 30px;
-      border: 1px solid #e2e8f0;
-      font-size: 16px;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      outline: none;
-      transition: 0.3s;
-    }
-    #searchBox:focus {
-      border-color: var(--primary);
-      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
-    }
+/* LEFT CONTENT */
+.quiz-left{
+  flex:1;
+}
+.quiz-title{
+  font-size:16px;
+  font-weight:700;
+  color:#1e293b;
+  margin-bottom:6px;
+}
+.quiz-info{
+  font-size:13px;
+  color:#64748b;
+}
 
-    /* GRID – LIST STYLE */
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
+/* START BUTTON */
+.start-btn{
+  background:#2563eb;
+  color:#fff;
+  padding:12px 25px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+  white-space:nowrap;
+  transition: 0.3s;
+}
+.start-btn:hover{
+  background: #1e40af;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
 
-    /* QUIZ CARD */
-    .quiz {
-      background: white;
-      border-radius: 16px;
-      padding: 20px 25px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      border: 1px solid #f1f5f9;
-      transition: 0.3s;
-    }
-    .quiz:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      border-color: var(--primary);
-    }
+/* COMING SOON - Premium design */
+.coming-soon{
+  background:#ffffff;
+  border-radius:16px;
+  padding:50px 20px;
+  text-align:center;
+  box-shadow:0 10px 20px rgba(0,0,0,0.03);
+  font-weight:bold;
+  color:#94a3b8;
+  border: 2px dashed #e2e8f0;
+}
 
-    .quiz-left { flex: 1; }
-    .quiz-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 4px;
-    }
-    .quiz-info {
-      font-size: 13px;
-      color: #64748b;
-      display: flex;
-      gap: 10px;
-    }
-
-    /* START BUTTON */
-    .start-btn {
-      background: var(--primary);
-      color: white;
-      padding: 10px 24px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .start-btn:hover {
-      background: var(--secondary);
-      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
-    }
-
-    /* COMING SOON BOX */
-    .coming-soon {
-      background: white;
-      border-radius: 20px;
-      padding: 50px 20px;
-      text-align: center;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-      font-weight: 700;
-      color: #94a3b8;
-      border: 2px dashed #e2e8f0;
-    }
-
-    /* FOOTER */
-    footer {
-      background: var(--dark);
-      color: #94a3b8;
-      padding: 40px 20px;
-      text-align: center;
-      margin-top: 50px;
-    }
-    .footer-links a { color: #f1f5f9; text-decoration: none; margin: 0 10px; font-size: 13px; }
-
-    @media (max-width: 600px) {
-      header { padding-bottom: 140px; }
-      .container { margin-top: -100px; }
-      .quiz { flex-direction: column; text-align: center; padding: 25px; }
-      .start-btn { width: 100%; box-sizing: border-box; }
-    }
-  </style>
+/* FOOTER - Required for AdSense Approval */
+footer {
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 40px 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+.footer-links a {
+  color: #f1f5f9;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 13px;
+}
+</style>
 </head>
 
 <body>
 
 <header>
   <a class="back" href="../">← BACK</a>
-  <h1>SUBJECT WISE MOCKS</h1>
+  <h1>SUBJECT WISE MOCK TESTS</h1>
 
   <div class="join">
-    <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">Telegram</a>
-    <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">WhatsApp</a>
-  </div>
-
-  <div class="filters">
-    <div class="filter-row">
-      <button class="filter-btn active" onclick="clearAll(this)">ALL</button>
-      <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
-      <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
-    </div>
-    <div class="filter-row">
-      <button class="filter-btn" onclick="toggleSubject('MATHS',this)">MATHS</button>
-      <button class="filter-btn" onclick="toggleSubject('REASONING',this)">REASONING</button>
-      <button class="filter-btn" onclick="toggleSubject('ENGLISH',this)">ENGLISH</button>
-      <button class="filter-btn" onclick="toggleSubject('GK',this)">GK</button>
-    </div>
+    <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">JOIN TELEGRAM</a>
+    <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">JOIN WHATSAPP</a>
   </div>
 </header>
 
 <div class="container">
 
-  <input type="text" id="searchBox" placeholder="🔍 Search mock test..." onkeyup="applyFilters()">
+<input type="text" id="searchBox" placeholder="Search mock test..." onkeyup="applyFilters()">
 
-  <div class="coming-soon" id="comingSoonMsg">
-    🚀 SUBJECT WISE MOCK TESTS COMING SOON
+<div class="filters">
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="clearAll(this)">ALL</button>
+    <button class="filter-btn" onclick="toggleYear('2025',this)">2025</button>
+    <button class="filter-btn" onclick="toggleYear('2026',this)">2026</button>
   </div>
+  <div class="filter-row">
+    <button class="filter-btn" onclick="toggleSubject('MATHS',this)">MATHS</button>
+    <button class="filter-btn" onclick="toggleSubject('REASONING',this)">REASONING</button>
+    <button class="filter-btn" onclick="toggleSubject('ENGLISH',this)">ENGLISH</button>
+    <button class="filter-btn" onclick="toggleSubject('GK',this)">GK</button>
+  </div>
+</div>
 
-  <div class="grid" id="quizGrid">
+<div class="coming-soon" id="comingSoonMsg">
+  🚀 SUBJECT WISE MOCK TESTS COMING SOON
+</div>
 
-    </div>
+<div class="grid" id="quizGrid">
+
+  </div>
 </div>
 
 <footer>
@@ -288,7 +258,8 @@ let selectedSubject = "";
 function clearAll(btn){
   selectedYear = "";
   selectedSubject = "";
-  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".filter-btn")
+    .forEach(b=>b.classList.remove("active"));
   btn.classList.add("active");
   applyFilters();
 }
@@ -297,7 +268,7 @@ function toggleYear(year, btn){
   if(selectedYear === year){
     selectedYear = "";
     btn.classList.remove("active");
-  } else {
+  }else{
     selectedYear = year;
     clearRow(btn);
     btn.classList.add("active");
@@ -309,7 +280,7 @@ function toggleSubject(subject, btn){
   if(selectedSubject === subject){
     selectedSubject = "";
     btn.classList.remove("active");
-  } else {
+  }else{
     selectedSubject = subject;
     clearRow(btn);
     btn.classList.add("active");
@@ -318,13 +289,14 @@ function toggleSubject(subject, btn){
 }
 
 function clearRow(btn){
-  btn.parentElement.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+  btn.parentElement.querySelectorAll(".filter-btn")
+    .forEach(b=>b.classList.remove("active"));
 }
 
 function applyFilters(){
   const search = document.getElementById("searchBox").value.toLowerCase();
   const quizzes = document.querySelectorAll(".quiz");
-  let visibleCount = 0;
+  let found = 0;
 
   quizzes.forEach(q=>{
     const text = q.innerText.toLowerCase();
@@ -334,22 +306,22 @@ function applyFilters(){
     
     if(yOk && sOk && searchOk) {
         q.style.display = "flex";
-        visibleCount++;
+        found++;
     } else {
         q.style.display = "none";
     }
   });
 
-  // Show "Coming Soon" if no quizzes are present in HTML or if all are filtered out
+  // Toggle Coming Soon message based on results
   const msg = document.getElementById("comingSoonMsg");
-  if(quizzes.length === 0 || visibleCount === 0) {
+  if(quizzes.length === 0 || found === 0) {
       msg.style.display = "block";
   } else {
       msg.style.display = "none";
   }
 }
 
-// Initial check to show "Coming Soon" if grid is empty
+// Initial check
 applyFilters();
 </script>
 
