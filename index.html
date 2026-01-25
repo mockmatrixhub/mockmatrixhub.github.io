@@ -2,223 +2,302 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SSC JOURNEY TEST – BEST PLATFORM FOR FREE MOCKS OF SSC & OTHER  EXAMS</title>
+  <title>SSC JOURNEY TEST | 2025 Ediquity Pattern PYQ & Full Mocks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-4B6V3MV51Q');
-</script>
-
+  <meta name="description" content="Free SSC Mock Tests based on 2025 Ediquity pattern. Practice PYQ, Sectional, Subject-wise, and Full Mocks.">
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4B6V3MV51Q"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4B6V3MV51Q');
+  </script>
 
   <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #1e40af;
+      --accent: #f59e0b;
+      --success: #22c55e;
+      --dark: #0f172a;
+      --light: #f8fafc;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6fb;
-      color: #333;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #eff6ff;
+      color: #334155;
+      line-height: 1.6;
     }
 
-    /* HERO */
+    /* HERO SECTION */
     .hero {
-      background: linear-gradient(135deg, #1f3a8a, #2563eb);
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
       color: white;
-      padding: 30px 16px 36px;
+      padding: 50px 20px;
       text-align: center;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
     }
+
     .logo-circle {
-  width: 110px;
-  height: 110px;
-  margin: 0 auto 10px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; /* VERY IMPORTANT */
-}
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: white;
+      padding: 5px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
 
-.logo-circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* KEY FIX */
-}
+    .logo-circle:hover { transform: scale(1.05); }
 
-    
+    .logo-circle img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 
     .hero h1 {
-      font-size: 26px;
-      margin: 6px 0 4px;
-      letter-spacing: 0.5px;
+      font-size: 32px;
+      margin: 10px 0;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .hero p {
-      font-size: 14px;
-      opacity: 0.95;
-      margin-bottom: 10px;
+      font-size: 16px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 20px;
     }
 
-    /* WELCOME TEXT */
-    .welcome {
-      font-size: 15px;
-      font-weight: bold;
-      margin: 8px 0 10px;
-    }
-
-    /* JOIN BUTTONS */
-    .join-buttons {
-      margin-top: 6px;
-    }
-
-    .join-buttons a {
+    .welcome-badge {
       display: inline-block;
-      margin: 6px;
-      padding: 10px 18px;
-      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 15px;
+      border-radius: 30px;
+      font-size: 14px;
+      backdrop-filter: blur(5px);
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* MODERN SOCIAL BUTTONS */
+    .join-buttons a {
+      display: inline-flex;
+      align-items: center;
+      margin: 8px;
+      padding: 12px 24px;
+      border-radius: 50px;
       text-decoration: none;
-      font-weight: bold;
-      font-size: 13px;
+      font-weight: 700;
+      font-size: 14px;
       color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     }
 
     .telegram { background: #0088cc; }
     .whatsapp { background: #25d366; }
+    
+    .join-buttons a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      filter: brightness(1.1);
+    }
 
-    /* SECTION */
+    /* CONTENT SECTION */
     .section {
-      padding: 35px 16px;
-      max-width: 1000px;
+      padding: 50px 20px;
+      max-width: 1100px;
       margin: auto;
     }
 
     .section h2 {
       text-align: center;
-      margin-bottom: 25px;
-      font-size: 22px;
+      font-size: 28px;
+      color: var(--dark);
+      margin-bottom: 40px;
+      position: relative;
     }
 
-    /* CARDS */
+    .section h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--accent);
+      margin: 10px auto;
+      border-radius: 2px;
+    }
+
+    /* CARD GRID */
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
     }
 
     .card {
       background: white;
-      padding: 25px;
-      border-radius: 12px;
+      padding: 35px 25px;
+      border-radius: 20px;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 1px solid #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      border-color: var(--primary);
     }
 
     .card h3 {
-      margin-bottom: 8px;
+      font-size: 22px;
+      color: var(--dark);
+      margin-bottom: 12px;
     }
 
     .card p {
-      font-size: 14px;
-      color: #555;
+      font-size: 15px;
+      color: #64748b;
+      margin-bottom: 20px;
     }
 
-    .card a {
+    .btn-mock {
       display: inline-block;
-      margin-top: 15px;
       text-decoration: none;
       color: white;
-      background: #2563eb;
-      padding: 10px 22px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 14px;
+      background: var(--primary);
+      padding: 12px 30px;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    .btn-mock:hover {
+      background: var(--secondary);
+      letter-spacing: 0.5px;
     }
 
     /* FOOTER */
     footer {
-      background: #111827;
-      color: #ccc;
-      padding: 22px 15px;
+      background: var(--dark);
+      color: #94a3b8;
+      padding: 60px 20px 30px;
       text-align: center;
+      margin-top: 60px;
+    }
+
+    .footer-content { max-width: 800px; margin: auto; }
+
+    .footer-links {
+      margin: 25px 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .footer-links a {
+      color: #f1f5f9;
+      text-decoration: none;
       font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background 0.3s;
     }
 
-    footer strong {
+    .footer-links a:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--accent);
+    }
+
+    .owner-tag {
       color: white;
-      font-size: 15px;
+      font-size: 16px;
+      margin-top: 20px;
     }
 
-    /* MOBILE */
+    /* MOBILE OPTIMIZATION */
     @media (max-width: 600px) {
-      .hero h1 { font-size: 23px; }
-      .logo-circle { width: 95px; height: 95px; }
-      .welcome { font-size: 14px; }
+      .hero h1 { font-size: 26px; }
+      .hero { padding: 40px 15px; }
+      .card { padding: 25px 15px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- HERO -->
   <div class="hero">
-
-    <!-- LOGO -->
     <div class="logo-circle">
       <img src="/logo.png" alt="SSC Journey Test Logo">
     </div>
 
+    <div class="welcome-badge">👋 Practice to Perfection ✨</div>
     <h1>SSC JOURNEY TEST</h1>
-    <p>BEST PLATFORM FOR FREE MOCKS OF SSC & OTHER  EXAMS</p>
+    <p>Premium <b>2025 Ediquity Pattern</b> Mock Tests. Your one-stop destination for PYQs, Sectionals, and Full Mocks.</p>
 
-    <!-- WELCOME TEXT -->
-    <div class="welcome">
-      👋✨ Welcome to SSC JOURNEY TEST ✨👋
-    </div>
-
-    <!-- JOIN BUTTONS -->
     <div class="join-buttons">
       <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">
-        JOIN TELEGRAM
+        <span>📢 Join Telegram</span>
       </a>
       <a class="whatsapp" href="https://whatsapp.com/channel/0029VbC1BdBHgZWkQHWyLh2z" target="_blank">
-        JOIN WHATSAPP
+        <span>💬 Join WhatsApp</span>
       </a>
     </div>
-
   </div>
 
-  <!-- EXAMS -->
   <div class="section">
-    <h2>PRACTICE EXAM-WISE MOCK TEST</h2>
+    <h2>🎯 Popular Exam Categories</h2>
 
     <div class="cards">
-
       <div class="card">
-        <h3>SSC EXAMS</h3>
-        <p>CGL - CHSL - MTS - DELHI POLICE - CPO - SELECTION POST</p>
-        <a href="/quizzes/ssc/">SSC MOCK TEST</a>
+        <div style="font-size: 40px; margin-bottom: 10px;">📝</div>
+        <h3>SSC Exams 2025</h3>
+        <p>CGL • CHSL • MTS • CPO • GD<br><b>New Ediquity Pattern PYQs</b></p>
+        <a href="/quizzes/ssc/" class="btn-mock">Start Mock Test</a>
       </div>
 
       <div class="card">
-        <h3>OTHER EXAMS</h3>
-        <p>State & other competitive examinations</p>
-        <a href="/quizzes/others/">OTHER EXAMS MOCK TEST</a>
+        <div style="font-size: 40px; margin-bottom: 10px;">🏛️</div>
+        <h3>Other Competitive</h3>
+        <p>State Exams • Railway • Banking<br>Subject-wise Practice Sets</p>
+        <a href="/quizzes/others/" class="btn-mock">Explore All</a>
       </div>
-
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer>
-    <p>
-      © 2026 SSC JOURNEY TEST<br>
-      OWNER AND Created & Managed by <strong>SR CHAUDHARY</strong>
-    </p>
-    <p>
-      This website is for educational practice purposes only.
-    </p>
+    <div class="footer-content">
+      <div style="font-weight: bold; color: white; margin-bottom: 10px;">SSC JOURNEY TEST</div>
+      <p style="font-size: 13px;">Providing the most accurate 2025 exam pattern mocks to help aspirants achieve their dream government jobs.</p>
+      
+      <div class="footer-links">
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+      </div>
+
+      <p class="owner-tag">
+        Created & Managed by <strong>SR CHAUDHARY</strong>
+      </p>
+      <p style="font-size: 12px; margin-top: 20px; opacity: 0.6;">
+        © 2026 SSC Journey Test. All Rights Reserved.
+      </p>
+    </div>
   </footer>
 
 </body>
