@@ -29,16 +29,17 @@
       line-height: 1.6;
     }
 
-    /* HEADER */
+    /* HEADER - Increased padding to prevent overlap */
     header {
       background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
       color: white;
-      padding: 50px 20px 60px;
+      padding: 60px 20px 100px; /* Bottom padding increased to 100px */
       text-align: center;
       border-bottom-left-radius: 40px;
       border-bottom-right-radius: 40px;
       position: relative;
       box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+      z-index: 1;
     }
 
     .back-home {
@@ -55,6 +56,7 @@
       backdrop-filter: blur(5px);
       border: 1px solid rgba(255,255,255,0.3);
       transition: 0.3s;
+      z-index: 10;
     }
 
     .back-home:hover {
@@ -63,16 +65,20 @@
     }
 
     header h1 {
-      font-size: 30px;
+      font-size: 32px;
       margin: 10px 0;
       font-weight: 800;
-      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
-    .join-buttons { margin-top: 20px; }
+    .join-buttons { 
+      margin-top: 20px; 
+      position: relative;
+      z-index: 10;
+    }
+    
     .join-buttons a {
       display: inline-flex;
-      align-items: center;
       margin: 6px;
       padding: 10px 20px;
       border-radius: 50px;
@@ -81,49 +87,46 @@
       font-size: 13px;
       color: white;
       transition: 0.3s;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     .telegram { background: #0088cc; }
     .whatsapp { background: #25d366; }
-    .join-buttons a:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-    /* CONTAINER & GRID */
+    /* CONTAINER - Adjusted margin for better vertical spacing */
     .container {
       max-width: 1100px;
-      margin: -30px auto 50px;
+      margin: -60px auto 50px; /* Pulls cards up slightly but keeps them below text */
       padding: 0 20px;
+      position: relative;
+      z-index: 5;
     }
 
     .exams {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 25px;
     }
 
     .exam {
       background: white;
-      padding: 30px 20px;
-      border-radius: 20px;
+      padding: 35px 20px;
+      border-radius: 24px;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
       border: 1px solid #e2e8f0;
       transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
 
     .exam:hover {
-      transform: translateY(-8px);
+      transform: translateY(-10px);
       border-color: var(--primary);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 20px 30px rgba(0,0,0,0.1);
     }
 
     .exam h3 {
-      margin: 0 0 15px;
+      margin: 10px 0 15px;
       color: var(--dark);
-      font-size: 20px;
+      font-size: 22px;
+      font-weight: 700;
     }
 
     .exam a {
@@ -131,32 +134,31 @@
       text-decoration: none;
       color: white;
       background: var(--primary);
-      padding: 10px 25px;
+      padding: 12px 30px;
       border-radius: 12px;
       font-weight: 700;
-      font-size: 14px;
       transition: 0.3s;
     }
 
     .exam a:hover {
       background: var(--secondary);
-      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
 
     /* FOOTER */
     footer {
       background: var(--dark);
       color: #94a3b8;
-      padding: 50px 20px;
+      padding: 60px 20px 40px;
       text-align: center;
-      margin-top: 60px;
     }
-    .footer-links { margin: 20px 0; }
+    .footer-links { margin: 25px 0; }
     .footer-links a {
       color: #f1f5f9;
       text-decoration: none;
-      margin: 0 10px;
+      margin: 0 12px;
       font-size: 14px;
+      font-weight: 600;
     }
     .footer-links a:hover { color: var(--accent); }
 
@@ -167,8 +169,9 @@
 
     @media (max-width: 600px) {
       .exams { grid-template-columns: 1fr; }
-      header h1 { font-size: 24px; }
-      .exam { padding: 25px; }
+      header { padding-bottom: 120px; } /* Extra space for mobile stacked buttons */
+      .container { margin-top: -80px; }
+      header h1 { font-size: 26px; }
     }
   </style>
 </head>
@@ -178,7 +181,7 @@
 <header>
   <a class="back-home" href="/">← HOME</a>
   <h1>SSC MOCK TESTS</h1>
-  <p>Latest 2025 Ediquity Pattern Practice Sets</p>
+  <p>2025 Ediquity Pattern • Premium Study Material</p>
 
   <div class="join-buttons">
     <a class="telegram" href="https://t.me/SSC_JOURNEY2" target="_blank">JOIN TELEGRAM</a>
@@ -188,55 +191,53 @@
 
 <div class="container">
   <div class="exams">
-
     <div class="exam">
-      <div style="font-size: 30px; margin-bottom: 10px;">🏆</div>
+      <div style="font-size: 40px;">🏆</div>
       <h3>SSC CGL</h3>
       <a href="/quizzes/ssc/cgl/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
-      <div style="font-size: 30px; margin-bottom: 10px;">📖</div>
+      <div style="font-size: 40px;">📖</div>
       <h3>SSC CHSL</h3>
       <a href="/quizzes/ssc/chsl/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
-      <div style="font-size: 30px; margin-bottom: 10px;">📝</div>
+      <div style="font-size: 40px;">📝</div>
       <h3>SSC MTS</h3>
       <a href="/quizzes/ssc/mts/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
-      <div style="font-size: 30px; margin-bottom: 10px;">👮</div>
+      <div style="font-size: 40px;">👮</div>
       <h3>DELHI POLICE</h3>
       <a href="/quizzes/ssc/delhi-police/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
-      <div style="font-size: 30px; margin-bottom: 10px;">🎖️</div>
+      <div style="font-size: 40px;">🎖️</div>
       <h3>SSC CPO</h3>
       <a href="/quizzes/ssc/cpo/">OPEN MOCKS</a>
     </div>
 
     <div class="exam">
-      <div style="font-size: 30px; margin-bottom: 10px;">📂</div>
+      <div style="font-size: 40px;">📂</div>
       <h3>SELECTION POST</h3>
       <a href="/quizzes/ssc/selection-post/">OPEN MOCKS</a>
     </div>
-
   </div>
 </div>
 
 <footer>
-    <div style="font-weight: bold; color: white; margin-bottom: 10px;">SSC JOURNEY TEST</div>
+    <div style="font-weight: bold; color: white; font-size: 18px;">SSC JOURNEY TEST</div>
     <div class="footer-links">
         <a href="/about.html">About Us</a>
         <a href="/contact.html">Contact Us</a>
         <a href="/privacy-policy.html">Privacy Policy</a>
         <a href="/disclaimer.html">Disclaimer</a>
     </div>
-    <p style="font-size: 12px; opacity: 0.6;">© 2026 SSC Journey Test. All Rights Reserved.</p>
+    <p style="font-size: 12px; opacity: 0.5;">© 2026 SSC Journey Test. Designed for Aspirants.</p>
 </footer>
 
 </body>
