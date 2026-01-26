@@ -1602,6 +1602,10 @@ function refreshLatestRankOnDemand(btn) {
           }
         });
 
+                // 🔓 FIX: Reset button state BEFORE saving so it doesn't get stuck in "Updating..."
+        btn.disabled = false;
+        btn.textContent = "🔄 GET LIVE UPDATED RANK";
+
         // 5️⃣ Persist updated dashboard for reload
         LAST_RESULT_HTML = resultsContainer.innerHTML;
         localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
