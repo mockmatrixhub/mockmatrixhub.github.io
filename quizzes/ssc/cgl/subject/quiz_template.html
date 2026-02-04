@@ -1267,6 +1267,13 @@ function submitQuiz(isAuto = false) {
       // (Exact structure requested: Info, Actions, Scores, Attempts, Comparison, Toppers)
       let dashboardHTML = `
       <div class="analysis-container">
+      <div style="margin-bottom: 10px;">
+    <button class="btn-dash btn-outline" 
+            style="width: 100%; background: #ffffff; color: #333; border: 2px solid #333; display: flex; align-items: center; justify-content: center; gap: 8px;" 
+            onclick="window.location.href='./'">
+      <span style="font-size: 18px;">⬅</span> GO TO ALL TESTS
+    </button>
+  </div>
 
         <div class="card-dashboard">
           <div class="info-grid">
@@ -1280,8 +1287,7 @@ function submitQuiz(isAuto = false) {
            <div class="action-grid">
               <button class="btn-dash btn-solid" onclick="reattemptQuiz()">🔄 Reattempt</button>
               <button class="btn-dash btn-outline" onclick="enterSolutionMode()">📊 Detailed Solution</button>
-              <button class="btn-dash btn-outline" style="background: #f8f9fa; border-color: #333; color: #333;" onclick="window.location.href='./'">📂 GO TO TESTS</button>
-           </div>
+              </div>
            <div class="action-grid">
               <button class="btn-dash btn-outline" onclick="restoreLatestResult()">⬅ Back to Latest Result</button>
               <button class="btn-dash btn-outline" onclick="loadPreviousAttempts('${QUIZ_ID}', '${DEVICE_ID}')">📁 Previous Results</button>
