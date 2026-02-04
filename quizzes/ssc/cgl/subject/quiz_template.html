@@ -17,6 +17,7 @@
 </script>
 
 <style>
+
 /* =========================================
    1. GLOBAL VARIABLES & RESET
    ========================================= */
@@ -218,7 +219,7 @@ h1 {
    ========================================= */
 /* The main card holding the question */
 .card {
-  background: #fff;
+  background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
@@ -302,7 +303,8 @@ h1 {
    6. VIEW PALETTE (Right Side)
    ========================================= */
 #palette {
-  background: #fff;
+  background: #dae5f0 !important;
+  
   border-radius: 8px;
   display: none; /* Hidden on mobile by default */
   flex-direction: column;
@@ -337,30 +339,30 @@ h1 {
   overscroll-behavior: contain;
 }
 
-.qbtn {
-  width: 38px;
-  height: 38px;
-  border: 1px solid #ddd;
-  background: #d6d6d6; /* dense grey */
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
+
+ .qbtn {
+  /* Shape and Size */
+  position: relative !important; /* REQUIRED for the star to stay inside */
+  width: 42px; 
+  height: 35px;
+  border-radius: 2px; /* Very slight rounding as seen in SS */
+  
+  /* Color and Background (The Gradient) */
+  background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 100%); 
+  border: 1px solid #ababab; /* The grey border from your image */
+  
+  /* Text Style */
+  color: #000000;
+  font-weight: 700;
+  
+  /* The "Lifted" Effect */
+  box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(0,0,0,0.1);
+} 
 .qbtn:hover { background: #e0e0e0; }
 /* Pentagon shape (both modes) */
 .qbtn.current {
-  clip-path: polygon(
-    50% 0%,
-    100% 38%,
-    82% 100%,
-    18% 100%,
-    0% 38%
-  );
+  clip-path: polygon(0% 0%, 100% 0%, 100% 70%, 50% 100%, 0% 70%);
+   
   border: none;
   position: relative;
 }
@@ -392,15 +394,19 @@ body.mode-solution .qbtn.current::before {
   background: var(--accent);
   color: #fff;
 }
+/* Updated Star Positioning - Sit exactly in the corner of the button */
 .qbtn.marked-answered::after {
   content: "★";
   position: absolute;
-  bottom: 1px;
-  right: 1px;
-  font-size: 10px;
-  color: #ffeb3b; /* Yellow Star */
+  bottom: -2px;   /* Adjusted to sit on the bottom edge */
+  right: 1px;     /* Adjusted to sit on the right edge */
+  font-size: 14px;
+  color: #ffeb3b; /* Bright Yellow Star */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
   line-height: 1;
+  z-index: 5;
 }
+
 .lg-box.notvisited { background: #e0e0e0; }
 .lg-box.answered { background: var(--success); }
 .lg-box.marked { background: var(--accent); }
@@ -469,7 +475,7 @@ body.mode-solution .qbtn.current::before {
     gap: 24px;
     align-items: start;
   }
-
+ 
   /* 2. Palette Sticky & Visible */
   #palette {
     display: flex !important; /* Always show */
@@ -479,7 +485,26 @@ body.mode-solution .qbtn.current::before {
     overflow-y: auto;
     border: 1px solid var(--border-color);
     overscroll-behavior: contain;
+    z-index: 10; /* Lower z-index so header buttons stay on top */
   }
+
+  /* Desktop specific Submit Button inside Palette */
+  #palette #submitBtn {
+    display: block !important;
+    width: 95%;
+    margin: 20px auto 10px auto; /* Centered with top margin */
+    background: #1a73e8;
+    color: white;
+    font-weight: 700;
+    padding: 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15);
+  }
+
+  /* Hide the original header submit button on desktop since it's now in palette */
+  header #submitBtn { display: none !important; }
 
   /* 3. Hide Mobile Bottom Bar */
   .fbar { display: none !important; }
@@ -599,6 +624,31 @@ body.mode-solution .qbtn.current::before {
 .topper-table td { padding: 10px; border-bottom: 1px solid #eee; color: #333; }
 .section-title { font-size: 16px; font-weight: 700; margin: 0 0 14px; color: #222; padding-bottom: 8px; border-bottom: 1px solid #eee; }
 
+  /* Language Dropdown Styling */
+#langSelect {
+  background-color: #fff;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Ensure header items don't overlap on small screens */
+@media (max-width: 600px) {
+  .header-inner {
+    padding: 0 8px;
+  }
+  #langSelect {
+    font-size: 11px;
+    padding: 2px;
+  }
+  .timer-text {
+    font-size: 14px;
+    padding: 2px 6px;
+  }
+}
 /* =========================================
    10. UTILITIES & MODALS
    ========================================= */
@@ -616,6 +666,7 @@ body.mode-solution .qbtn.current::before {
 
 /* MathJax */
 mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: auto; }
+
 
 /* Loader Overlay */
 #loadingOverlay {
@@ -680,8 +731,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
         <div class="detail-value"><span id="disp_time">-</span> Minutes</div>
       </div>
     </div>
-    
-    <div class="welcome-instructions">
+        <div class="welcome-instructions">
       <h3>General Instructions / सामान्य निर्देश</h3>
       <ul>
         <li><b>Do not reload the page.</b><br><span>कृपया पेज को रीलोड न करें।</span></li>
@@ -691,14 +741,28 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
       </ul>
     </div>
 
-    <div class="welcome-actions">
-      <button id="welcomeStartBtn" class="start-btn" type="button">▶ Start Test</button>
-      <a class="channel-link" href="https://t.me/SSC_JOURNEY2" target="_blank">Join Telegram Channel</a>
+    <div class="welcome-actions" style="flex-direction: column; align-items: center; gap: 20px;">
+      
+      <div style="width: 100%; max-width: 300px;">
+        <label for="welcomeLangSelect" style="display:block; font-size:13px; font-weight:700; margin-bottom:5px; color:var(--accent);">SELECT LANGUAGE / भाषा चुनें:</label>
+        <select id="welcomeLangSelect" class="btn-ghost" style="width: 100%; padding: 12px; border-radius: 8px; font-size: 15px; cursor: pointer; border: 2px solid var(--accent);">
+          <option value="">-- Choose Language --</option>
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="bilingual">Bilingual (English + Hindi)</option>
+        </select>
+      </div>
+
+      <div style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
+        <button id="welcomeStartBtn" class="start-btn" type="button">▶ Start Test</button>
+        <a class="channel-link" href="https://t.me/SSC_COMPILATIONS_2025" target="_blank">📢 Join Telegram Channel</a>
+      </div>
+      
     </div>
 
   </div>
 </div>
-
+  
 <div id="ssc-watermark" class="ssc-watermark">
   <div class="ssc-wm" style="top:10%; left:5%;">@SSC_JOURNEY2</div>
   <div class="ssc-wm" style="top:30%; left:60%;">@SSC_JOURNEY2</div>
@@ -734,16 +798,16 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
       <button id="backToAnalysisBtn" class="btn-ghost" style="display:none;">⬅ Analysis</button>
       <h1 id="headerTitle">Loading...</h1>
     </div>
-
+    
     <div style="display:flex; align-items:center; gap:10px;">
-
-      <div id="topActions" class="top-actions">
-        </div>
-
+      <select id="langSelect" class="btn-ghost" style="padding: 4px; font-size: 13px;">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bilingual">EN+HI</option>
+      </select>
+      <div id="topActions" class="top-actions"></div>
       <div class="timer-text" id="timer">00:00</div>
-
       <button id="submitBtn" class="btn">Submit</button>
-
       <button id="paletteBtn" class="btn-ghost">View</button>
     </div>
   </div>
@@ -766,6 +830,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
       </div>
 
       <div class="qtext" id="qtext"></div>
+      <div id="questionImage" style="margin:12px 0;"></div>
       <div class="options" id="options"></div>
 
       <div id="explanation" class="explanation"></div>
@@ -827,6 +892,7 @@ let CORRECT_SCORE = 2; // Default, will update
 let NEGATIVE_SCORE = 0.5; // Default, will update
 let TOTAL_TIME_SECONDS = 0;
 
+
 // ⏱ VARIABLES
 let current = 0;
 let answers = {};
@@ -835,7 +901,7 @@ let seconds = 0;              // Changed from placeholder
 let timerInterval = null;
 let isQuiz = true;
 let LAST_RESULT_HTML = "";
-
+let currentLang = "en";
 
 
 // 🗄 DATA ARRAYS
@@ -868,6 +934,7 @@ function saveQuizState(){
     current,
     answers,
     marked,
+    currentLang,
     seconds
   };
   localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
@@ -909,30 +976,68 @@ function startTimer() {
 // ===============================
 // 📝 RENDER QUESTION ENGINE
 // ===============================
-function renderQuestion(i){
+function renderQuestion(i) {
   current = i;
   const q = QUESTIONS[i];
 
   // 1. Update Header Info
-  el("qindex").textContent = i+1;
+  el("qindex").textContent = i + 1;
   el("qtotal").textContent = QUESTIONS.length;
+
+  // --- LANGUAGE HELPER FUNCTION ---
+  // Processes the JSON object based on currentLang (en, hi, or bilingual)
+  const getLangText = (obj) => {
+    if (!obj) return "";
+    if (typeof obj === "string") return obj; // Fallback for old format strings
+
+    if (currentLang === "bilingual") {
+      const enText = obj.en || "";
+      const hiText = obj.hi || "";
+      return enText + (enText && hiText ? "<hr style='border:none; border-top:1px dashed #ccc; margin:10px 0;'>" : "") + hiText;
+    }
+    // Return selected language or fallback to English if the choice is empty
+    return obj[currentLang] || obj["en"] || "";
+  };
 
   // 2. Render Question Text & Math
   const qTextEl = el("qtext");
-  qTextEl.innerHTML = q.question || "";
+  qTextEl.innerHTML = getLangText(q.question);
   normalizeMathForQuiz(qTextEl);
+
+  // 🖼️ QUESTION IMAGE RENDER (Updated to 40% size)
+  const imgBox = document.getElementById("questionImage");
+  imgBox.innerHTML = "";
+
+  if (q.question_image && q.question_image.trim() !== "") {
+    const img = document.createElement("img");
+    img.src = q.question_image;
+    img.alt = "Question Image";
+    img.style.width = "40%"; // Force 40% size as requested
+    img.style.height = "auto";
+    img.style.display = "block";
+    img.style.margin = "10px auto";
+    img.style.border = "1px solid #ddd";
+    img.style.borderRadius = "6px";
+    img.loading = "lazy";
+
+    img.onerror = () => {
+      imgBox.innerHTML = "<div style='color:red;font-size:13px'>⚠ Image failed to load</div>";
+    };
+
+    imgBox.appendChild(img);
+  }
 
   // 3. Update Marks
   el("marking").innerHTML = `Marking: <span style="color:var(--success)">+${Number(q.correct_score ?? 1)}</span> / <span style="color:var(--danger)">-${Number(q.negative_score ?? 0)}</span>`;
 
-  // 4. Render Options
+  // 4. Render Options (Updated to include Option Images)
   const optsContainer = el("options");
   optsContainer.innerHTML = "";
 
-  const optionKeys = ["option_1","option_2","option_3","option_4","option_5"];
+  const optionKeys = ["option_1", "option_2", "option_3", "option_4", "option_5"];
 
   optionKeys.forEach((key, idx) => {
-    if(!q[key]) return; // Skip empty options
+    if (!q[key]) return; // Skip empty options
 
     const optionIndex = idx + 1; // 1-based index (1,2,3,4)
     const isSelected = answers[q.id ?? i] === String(optionIndex);
@@ -942,78 +1047,92 @@ function renderQuestion(i){
     div.className = "opt";
 
     // --- LOGIC: QUIZ vs SOLUTION MODE ---
-    if(isQuiz) {
-      // 🔵 QUIZ MODE: Simple Selection
-      if(isSelected) div.classList.add("selected");
-
-      // Click Handler
+    if (isQuiz) {
+      if (isSelected) div.classList.add("selected");
       div.onclick = () => selectOption(q, optionIndex, div);
-
     } else {
-      // 🟢 SOLUTION MODE: Show Right/Wrong
-      div.style.cursor = "default"; // Disable pointer
-
-      if(isCorrectAns) {
-        div.classList.add("correct"); // Green Border/BG
+      div.style.cursor = "default";
+      if (isCorrectAns) {
+        div.classList.add("correct");
         div.style.backgroundColor = "#e6f7ee";
         div.style.borderColor = "#2e7d32";
       }
-
-      if(isSelected && !isCorrectAns) {
-        div.classList.add("wrong"); // Red Border/BG
+      if (isSelected && !isCorrectAns) {
+        div.classList.add("wrong");
         div.style.backgroundColor = "#fdeaea";
         div.style.borderColor = "#c82d3f";
       }
+    }
 
-      if(isSelected && isCorrectAns) {
-         // User chose correct: already handled by isCorrectAns check,
-         // but ensures selected style doesn't override correct style
-      }
+    // 🖼️ OPTION IMAGE RENDER (40% size)
+    const optImgKey = `option_image_${optionIndex}`;
+    let optImgHtml = "";
+    if (q[optImgKey] && q[optImgKey].trim() !== "") {
+      optImgHtml = `<div style="margin-top:8px;"><img src="${q[optImgKey]}" style="width:40%; height:auto; border-radius:4px; border:1px solid #eee;"></div>`;
     }
 
     div.innerHTML = `
       <div class="custom-radio"></div>
-      <div class="opt-text" style="flex:1">${q[key]}</div>
+      <div style="flex:1">
+        <div class="opt-text">${getLangText(q[key])}</div>
+        ${optImgHtml}
+      </div>
     `;
 
     optsContainer.appendChild(div);
     normalizeMathForQuiz(div.querySelector(".opt-text"));
   });
 
-
-    // 5. Render Explanation (Only in Solution Mode)
+  // 5. Render Explanation (Only in Solution Mode - Updated for Solution Images)
   const expBox = el("explanation");
-  if(!isQuiz) {
+  if (!isQuiz) {
     const qid = q.id ?? i;
     const userAns = answers[qid];
     const isCorrect = userAns && String(userAns) === String(q.answer);
 
-    // Status Logic
     let statusText = "";
     if (!userAns) {
       statusText = `<span style="color:#9e9e9e">Skipped (0)</span>`;
     } else if (isCorrect) {
-      statusText = `<span style="color:var(--success)">Correct (+${q.correct_score ?? CORRECT_SCORE})</span>`;
+      statusText = `<span style="color:var(--success)">Correct (+${q.correct_score ?? 3})</span>`;
     } else {
-      statusText = `<span style="color:var(--danger)">Wrong (-${q.negative_score ?? NEGATIVE_SCORE})</span>`;
+      statusText = `<span style="color:var(--danger)">Wrong (-${q.negative_score ?? 1})</span>`;
+    }
+
+    // 🖼️ SOLUTION IMAGE RENDER (40% size)
+    let solImgHtml = "";
+    if (q.solution_image && q.solution_image.trim() !== "") {
+      solImgHtml = `<div style="margin-top:15px; text-align:center;"><img src="${q.solution_image}" style="width:40%; height:auto; border-radius:6px; border:1px solid #ddd;"></div>`;
     }
 
     expBox.style.display = "block";
     expBox.innerHTML = `<div style="margin-bottom:8px; font-weight:700;">Status: ${statusText}</div>` +
-                       (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br>${q.solution_text}` : "");
+      (q.solution_text ? `<hr style="border:0; border-top:1px solid #ddd; margin:8px 0;"><strong>💡 Explanation:</strong><br>${getLangText(q.solution_text)}` : "") +
+      solImgHtml;
     normalizeMathForQuiz(expBox);
   } else {
     expBox.style.display = "none";
   }
 
-
   // 6. Update MathJax
   renderMath();
 
   // 7. Update Palette & Buttons (Dependent functions)
-  if(typeof highlightPalette === "function") highlightPalette();
+  if (typeof highlightPalette === "function") highlightPalette();
   updateNavButtons();
+
+  // Handle language dropdown synchronization inside the header
+  const langSelect = document.getElementById("langSelect");
+  if (langSelect) {
+    langSelect.onchange = (e) => {
+      currentLang = e.target.value;
+      saveQuizState();
+      renderQuestion(current);
+    };
+  }
 }
+
+
 
 // ===============================
 // 🖱️ OPTION SELECTION
@@ -1602,6 +1721,10 @@ function refreshLatestRankOnDemand(btn) {
           }
         });
 
+                // 🔓 FIX: Reset button state BEFORE saving so it doesn't get stuck in "Updating..."
+        btn.disabled = false;
+        btn.textContent = "🔄 GET LIVE UPDATED RANK";
+
         // 5️⃣ Persist updated dashboard for reload
         LAST_RESULT_HTML = resultsContainer.innerHTML;
         localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
@@ -1789,9 +1912,20 @@ function attachListeners(){
   el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
   el("confirmSubmit").addEventListener("click", ()=> { el("submitModal").style.display = "none"; submitQuiz(); });
 }
-
 // Build Palette Buttons
-function buildPalette(){
+function buildPalette() {
+  const pal = el("palette");
+  
+  // Re-structure palette to include a container for the grid and a fixed submit button
+  pal.innerHTML = `
+    <div id="palette-legend"></div>
+    <div id="palette-summary" style="margin-bottom:10px; font-weight:700; font-size:13px; text-align:center;"></div>
+    <div id="palette-grid" class="palette-grid" style="overflow-y:auto; flex-grow:1;"></div>
+    <div class="palette-submit-container" id="palSubmitArea" style="padding:10px 0; border-top:1px solid #ccc; background:#dae5f0; text-align:center;">
+      <button id="palSubmitBtn" class="btn" style="width:95%; background:#1a73e8; color:white; font-weight:700; padding:12px; border-radius:4px; border:none; cursor:pointer;">Submit Test</button>
+    </div>
+  `;
+
   const grid = el("palette-grid");
   grid.innerHTML = "";
   QUESTIONS.forEach((q, i) => {
@@ -1800,70 +1934,82 @@ function buildPalette(){
     btn.textContent = i + 1;
     btn.onclick = () => {
       renderQuestion(i);
-      if(window.innerWidth < 992) el("palette").style.display = "none";
+      if (window.innerWidth < 992) el("palette").style.display = "none";
     };
     grid.appendChild(btn);
-    updatePaletteLegend();
   });
+
+  // Attach submit event to the new button
+  el("palSubmitBtn").onclick = () => {
+    if (isQuiz) {
+        el('submitBtn').click(); // Triggers your existing submit logic/modal
+    } else {
+        restoreLatestResult(); // If in solution mode, goes back to analysis
+    }
+  };
+
+  updatePaletteLegend();
 }
 
 // Update Palette Colors
-function highlightPalette(){
+function highlightPalette() {
   const btns = document.querySelectorAll(".qbtn");
-  let att = 0;
+  if (btns.length === 0) return;
 
   btns.forEach((btn, i) => {
     const qid = QUESTIONS[i].id ?? i;
     btn.className = "qbtn"; // Reset
 
-    if(current === i) btn.classList.add("current");
+    if (current === i) btn.classList.add("current");
 
-    if(isQuiz) {
-      // 🔵 QUIZ MODE COLORS
-      if(marked[qid]) {
+    if (isQuiz) {
+      if (marked[qid]) {
         btn.classList.add(answers[qid] ? "marked-answered" : "marked");
-      } else if(answers[qid]) {
+      } else if (answers[qid]) {
         btn.classList.add("answered");
       } else {
         btn.classList.add("notvisited");
       }
     } else {
-      // 🟢 SOLUTION MODE COLORS (New Requirement)
-      // Correct = Green, Wrong = Red, Skipped = Grey
-      // Star if marked
       const myAns = answers[qid];
       const correctAns = String(QUESTIONS[i].answer);
-
-      if(!myAns) {
+      if (!myAns) {
         btn.classList.add("sol-skip");
-      } else if(String(myAns) === correctAns) {
+      } else if (String(myAns) === correctAns) {
         btn.classList.add("sol-right");
       } else {
         btn.classList.add("sol-wrong");
       }
-
-      if(marked[qid]) btn.classList.add("has-star");
+      if (marked[qid]) btn.classList.add("has-star");
     }
-
-    if(answers[qid]) att++;
   });
 
-  // Update Mark Button Text/Color based on current state
-  const curQid = QUESTIONS[current].id ?? current;
-  const mkBtn = el("markBtn");
-  if(mkBtn) {
-      if(marked[curQid]) {
-          mkBtn.textContent = "Unmark Review";
-          mkBtn.classList.add("active-mark"); // Greenish
-      } else {
-          mkBtn.textContent = "Mark for Review";
-          mkBtn.classList.remove("active-mark");
-      }
+  // Handle the Submit Button Visibility inside palette
+  const palSubmitArea = el("palSubmitArea");
+  const palSubmitBtn = el("palSubmitBtn");
+  if (palSubmitArea) {
+    if (isQuiz) {
+        palSubmitBtn.textContent = "Submit Test";
+        palSubmitArea.style.display = "block";
+    } else {
+        // In Solution mode, we can change it to "Back to Analysis" or hide it
+        palSubmitBtn.textContent = "Back to Analysis";
+        palSubmitArea.style.display = "block"; 
+    }
   }
 
-  // Update Palette Summary Text
+  const curQid = QUESTIONS[current].id ?? current;
+  const mkBtn = el("markBtn");
+  if (mkBtn) {
+    if (marked[curQid]) {
+      mkBtn.textContent = "Unmark Review";
+      mkBtn.classList.add("active-mark");
+    } else {
+      mkBtn.textContent = "Mark for Review";
+      mkBtn.classList.remove("active-mark");
+    }
+  }
   updatePaletteLegend();
-
 }
 
 // update function
@@ -1873,53 +2019,35 @@ function updatePaletteLegend() {
   if (!legend || !summary) return;
 
   if (isQuiz) {
-    // ======================
-    // QUIZ MODE
-    // ======================
     legend.innerHTML = `
-      <div><span class="lg-box notvisited"></span> Not Answered</div>
-      <div><span class="lg-box answered"></span> Answered</div>
-      <div><span class="lg-box marked"></span> Marked for Review</div>
-      <div><span class="lg-box marked-answered">★</span> Answered & Marked</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; font-size:12px; margin-bottom:10px;">
+        <div><span class="lg-box notvisited" style="background:#bdbdbd"></span> Not Visited</div>
+        <div><span class="lg-box answered" style="background:var(--success)"></span> Answered</div>
+        <div><span class="lg-box marked" style="background:var(--accent)"></span> Marked</div>
+        <div><span class="lg-box marked-answered" style="background:var(--accent)">★</span> Ans & Marked</div>
+      </div>
     `;
 
-    let answered = 0;
-    let notAnswered = 0;
-    let markedOnly = 0;
-    let markedAnswered = 0;
-
+    let answered = 0, notAnswered = 0, markedOnly = 0, markedAnswered = 0;
     QUESTIONS.forEach((q, i) => {
       const qid = q.id ?? i;
       const hasAnswer = !!answers[qid];
       const isMarked = !!marked[qid];
-
-      if (hasAnswer && isMarked) {
-        markedAnswered++;
-      } else if (hasAnswer) {
-        answered++;
-      } else if (isMarked) {
-        markedOnly++;
-      } else {
-        notAnswered++;
-      }
+      if (hasAnswer && isMarked) markedAnswered++;
+      else if (hasAnswer) answered++;
+      else if (isMarked) markedOnly++;
+      else notAnswered++;
     });
-
-    summary.textContent =
-      `Answered: ${answered} | Not Answered: ${notAnswered} | ` +
-      `Ans & Marked: ${markedAnswered} | Marked: ${markedOnly}`;
-
+    summary.textContent = `Answered: ${answered} | Not Answered: ${notAnswered} | Ans & Marked: ${markedAnswered} | Marked: ${markedOnly}`;
   } else {
-    // ======================
-    // SOLUTION MODE
-    // ======================
     legend.innerHTML = `
-      <div><span class="lg-box" style="background:var(--success)"></span> Correct</div>
-      <div><span class="lg-box" style="background:var(--danger)"></span> Wrong</div>
-      <div><span class="lg-box" style="background:#9e9e9e"></span> Skipped</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; font-size:12px; margin-bottom:10px;">
+        <div><span class="lg-box" style="background:var(--success)"></span> Correct</div>
+        <div><span class="lg-box" style="background:var(--danger)"></span> Wrong</div>
+        <div><span class="lg-box" style="background:#9e9e9e"></span> Skipped</div>
+      </div>
     `;
-
     let correct = 0, wrong = 0, skipped = 0;
-
     QUESTIONS.forEach((q, i) => {
       const qid = q.id ?? i;
       const myAns = answers[qid];
@@ -1927,11 +2055,10 @@ function updatePaletteLegend() {
       else if (String(myAns) === String(q.answer)) correct++;
       else wrong++;
     });
-
-    summary.textContent =
-      `Correct: ${correct} | Wrong: ${wrong} | Skipped: ${skipped}`;
+    summary.textContent = `Correct: ${correct} | Wrong: ${wrong} | Skipped: ${skipped}`;
   }
 }
+
 // ===============================
 // 🚀 INITIALIZATION
 // ===============================
@@ -1988,15 +2115,22 @@ function init(){
       nameInput.value = ""; // ✅ Clear it so validation triggers
     }
   }
-
-  const stateSaved = localStorage.getItem(QUIZ_STATE_KEY);
-  if (stateSaved) {
-    const state = JSON.parse(stateSaved);
-    current = state.current ?? 0;
-    answers = state.answers ?? {};
-    marked = state.marked ?? {};
-    seconds = state.seconds ?? seconds;
+    // --- UPDATE STEP 2 INSIDE init() ---
+const stateSaved = localStorage.getItem(QUIZ_STATE_KEY);
+if (stateSaved) {
+  const state = JSON.parse(stateSaved);
+  current = state.current ?? 0;
+  answers = state.answers ?? {};
+  marked = state.marked ?? {};
+  seconds = state.seconds ?? seconds;
+  
+  // RESTORE LANGUAGE PERSISTENCE HERE
+  if (state.currentLang) {
+    currentLang = state.currentLang;
+    const headerLangSelect = el("langSelect");
+    if (headerLangSelect) headerLangSelect.value = currentLang;
   }
+}
 
   // 3. SETUP UI
   if (window.innerWidth >= 992) {
@@ -2017,13 +2151,25 @@ function init(){
 }
 
 // 🚦 START BUTTON LISTENER
-document.getElementById("welcomeStartBtn").addEventListener("click", function(){
+document.getElementById("welcomeStartBtn").addEventListener("click", function() {
+  const selected = document.getElementById("welcomeLangSelect").value;
+  
+  if (!selected) {
+    alert("Please select a language! / कृपया भाषा चुनें!");
+    return; // STOP: Button won't work without selection
+  }
+
+  // Set persistence
+  currentLang = selected;
+  document.getElementById("langSelect").value = selected; // Sync header dropdown
+
+  // Proceed to quiz
   document.getElementById("welcomeScreen").style.display = "none";
   document.getElementById("mainHeader").style.display = "block";
+ 
   document.body.classList.add("mode-quiz");
  document.body.classList.remove("mode-solution");
 
-  // Responsive Display Logic for Quiz Area
   const quizArea = document.getElementById("quizMainArea");
   if(window.innerWidth >= 992) {
       quizArea.style.display = "grid";
@@ -2031,10 +2177,10 @@ document.getElementById("welcomeStartBtn").addEventListener("click", function(){
       quizArea.style.display = "block";
       document.getElementById("floatBar").style.display = "flex";
   }
-
-
   startTimer();
+  renderQuestion(current);
 });
+
 // 🔄 STARTUP SCRIPT
 // We do NOT call init() immediately. We load data first.
 document.addEventListener("DOMContentLoaded", function () {
@@ -2149,5 +2295,3 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
-
-
