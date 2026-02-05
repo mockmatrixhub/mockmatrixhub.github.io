@@ -545,20 +545,33 @@ body.mode-solution .qbtn.current::before {
   /* 3. Hide Mobile Bottom Bar */
   .fbar { display: none !important; }
 
-  /* 4. Show Desktop Top Buttons */
-  .top-actions { display: flex !important; }
-
-  /* Bigger action buttons on DESKTOP */
-.top-actions .btn,
-.top-actions .btn-ghost {
-    padding: 14px 24px;
-    font-size: 16px;
-    font-weight: 700;
-    border-radius: 6px;
-    line-height: 1.2;
-
+  /* Update this specific block inside @media (min-width: 992px) */
+.top-actions { 
+    display: flex !important; 
+    gap: 12px; /* Increased spacing between buttons */
+    align-items: center;
 }
 
+.top-actions .btn,
+.top-actions .btn-ghost {
+    padding: 10px 20px;
+    font-size: 15px;      /* Professional readable size */
+    font-weight: 700;
+    border-radius: 4px;
+    line-height: 1.2;
+    min-width: 100px;    /* Ensures buttons aren't squashed */
+    text-align: center;
+    white-space: nowrap; /* Prevents text from wrapping */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Optional: Make the primary blue buttons stand out more */
+#markBtn, #nextBtn {
+    min-width: 140px;    /* Slightly wider for the main action buttons */
+}
+  
   /* 5. Hide Mobile "View" Toggle in Header */
   #paletteBtn { display: none !important; }
 }
