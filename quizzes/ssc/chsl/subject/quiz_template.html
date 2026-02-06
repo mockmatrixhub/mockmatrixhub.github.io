@@ -1869,14 +1869,18 @@ async function refreshLatestRankOnDemand(btn) {
       const accuracy = payload.correct + payload.wrong > 0 
         ? ((payload.correct / (payload.correct + payload.wrong)) * 100).toFixed(2) 
         : "0.00";
-
-      // Re-render Sectional Comparison Logic
+      
+      // Correct Logic for Sectional Comparison Bars
       let secBarsHTML = "";
       SECTION_NAMES.forEach(name => {
-        const d = payload.sections[name];
-        // Note: Topper sectional data fetching is complex; using scaled topper total as baseline
+        const mySec = payload.sections[name];
+        // Fetch actual topper sectional score from the topperStats object we retrieved
+        const topperSecScore = (topperStats.sections && topperStats.sections[name]) 
+                               ? topperStats.sections[name].score 
+                               : 0;
+
         secBarsHTML += `<h4 class="section-title" style="margin-top:25px; border-left:4px solid var(--accent); padding-left:10px;">Part: ${name}</h4>`;
-        secBarsHTML += renderComparisonBar("Score", d.score, d.total, topperStats.score / SECTION_NAMES.length, d.total);
+        secBarsHTML += renderComparisonBar("Score", mySec.score, mySec.total, topperSecScore, mySec.total);
       });
 
       mainBars.innerHTML = `
@@ -1888,6 +1892,7 @@ async function refreshLatestRankOnDemand(btn) {
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
 
+      
       // Re-fix Time text formats
       mainBars.querySelectorAll(".bar-section").forEach(sec => {
         if (sec.querySelector(".bar-label span")?.textContent === "Time Taken") {
