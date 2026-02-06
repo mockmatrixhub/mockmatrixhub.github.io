@@ -2438,7 +2438,6 @@ document.getElementById("welcomeStartBtn").addEventListener("click", function() 
 document.addEventListener("DOMContentLoaded", function () {
     loadQuizData(); 
 });
-
 // ===============================
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
@@ -2452,32 +2451,26 @@ async function loadQuizData() {
   }
 
   try {
-    // 1. Fetch JSON Data
     const response = await fetch(`./data/${quizIdParam}.json?t=${Date.now()}`);
-    
     if (!response.ok) throw new Error("Quiz file not found (404)");
-    
     const data = await response.json();
 
-    // 2. Assign Global Variables
+    // Assign Global Variables
     QUIZ_TITLE = data.meta.title;
     QUIZ_ID = data.meta.id;
     CORRECT_SCORE = data.meta.correct_score;
     NEGATIVE_SCORE = data.meta.negative_score;
     TOTAL_TIME_SECONDS = data.meta.timer_seconds;
-    
-    // Set initial seconds
     seconds = data.meta.timer_seconds;
 
     // SECTIONAL LOGIC HANDLING
     SECTIONS = data.sections; 
     SECTION_NAMES = Object.keys(SECTIONS);
 
-    // 3. Set Derived Keys
     QUIZ_STATE_KEY = "ssc_quiz_state_" + QUIZ_ID;
     QUIZ_RESULT_KEY = "ssc_quiz_result_" + QUIZ_ID;
 
-    // 4. Build Section Buttons (PART-A, PART-B...)
+    // Build Section Buttons
     const nav = document.getElementById("sectionNav");
     if(nav) {
       nav.innerHTML = "";
@@ -2488,9 +2481,10 @@ async function loadQuizData() {
         btn.onclick = () => switchSection(i);
         nav.appendChild(btn);
       });
+      nav.style.display = "none"; // Keep hidden until test starts
     }
 
-    // 5. Update UI Texts
+    // Update UI Texts
     document.title = QUIZ_TITLE;
     document.getElementById("headerTitle").textContent = QUIZ_TITLE;
     document.getElementById("disp_quizTitle").textContent = QUIZ_TITLE;
@@ -2500,13 +2494,11 @@ async function loadQuizData() {
     document.getElementById("disp_negative").textContent = "-" + NEGATIVE_SCORE;
     document.getElementById("disp_time").textContent = data.meta.timer_minutes;
 
-    // 6. Hide Loader
     document.getElementById("loadingOverlay").style.display = "none";
     
-    // 7. Run Initialization
     init();
 
-    // 8. 🔥 AUTO-RESUME LOGIC 🔥
+    // 🔥 FIXED AUTO-RESUME LOGIC 🔥
     const savedState = localStorage.getItem(QUIZ_STATE_KEY);
     const alreadySubmitted = localStorage.getItem(QUIZ_RESULT_KEY);
 
@@ -2531,8 +2523,14 @@ async function loadQuizData() {
           document.getElementById("floatBar").style.display = "flex";
       }
 
-      switchSection(currentSectionIdx); // Loads correct section
+      switchSection(currentSectionIdx); 
       startTimer();
+    } else {
+      // SAFETY: If no active session, ensure Welcome Screen is visible
+      document.getElementById("welcomeScreen").style.display = "flex";
+      document.getElementById("mainHeader").style.display = "none";
+      const sNav = document.getElementById("sectionNav");
+      if(sNav) sNav.style.display = "none";
     }
 
   } catch (error) {
@@ -2540,6 +2538,7 @@ async function loadQuizData() {
     document.getElementById("loadingText").innerHTML = `Error loading quiz.<br><small>${error.message}</small>`;
   }
 }
+
 
 // 🛡️ PROTECTION SCRIPT
 (function () {
