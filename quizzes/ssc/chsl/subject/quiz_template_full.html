@@ -1816,6 +1816,10 @@ function reattemptQuiz() {
 // Restore Dashboard (From History/Solution Mode)
 function restoreLatestResult() {
   if(LAST_RESULT_HTML) {
+    // 🔴 CRITICAL FIX: analysis page must NEVER show section buttons
+    const sNav = document.getElementById("sectionNav");
+    if (sNav) sNav.style.display = "none";
+    
     document.getElementById("results").innerHTML = LAST_RESULT_HTML;
     document.getElementById("results").style.display = "block";
 
@@ -2070,8 +2074,7 @@ function attachListeners(){
   if(backAnaBtn) {
     backAnaBtn.addEventListener("click", () => {
        restoreLatestResult();
-      if (el("sectionNav")) el("sectionNav").style.display = "none";
-
+      
     });
   }
 
