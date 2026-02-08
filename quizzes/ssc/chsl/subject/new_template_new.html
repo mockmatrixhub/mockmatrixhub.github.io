@@ -2147,11 +2147,76 @@ function attachListeners(){
   });
 
   // Submit Modal
-  el("submitBtn").onclick = () => {
-    const attempted = Object.keys(answers).length;
-    el("submitMsg").textContent = `You have attempted ${attempted} of ${QUESTIONS.length} questions.\nAre you sure you want to submit?`;
+  // Submit Modal with Sectional Table
+el("submitBtn").onclick = () => {
+    let modalTableHtml = `
+      <div style="overflow-x:auto; margin-top:15px;">
+        <table style="width:100%; border-collapse: collapse; font-size: 12px; text-align: left; border: 1px solid #ddd;">
+          <thead>
+            <tr style="background-color: #f2f2f2;">
+              <th style="padding: 8px; border: 1px solid #ddd;">Section</th>
+              <th style="padding: 8px; border: 1px solid #ddd;">Att.</th>
+              <th style="padding: 8px; border: 1px solid #ddd;">Left</th>
+              <th style="padding: 8px; border: 1px solid #ddd;">Marked</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    let totalQuestionsInQuiz = 0;
+    let totalAttempted = 0;
+    let totalMarked = 0;
+
+    SECTION_NAMES.forEach(name => {
+      const sectionQuestions = SECTIONS[name];
+      let att = 0, markedCount = 0;
+
+      // Sum the total number of questions
+      totalQuestionsInQuiz += sectionQuestions.length; 
+
+      sectionQuestions.forEach(q => {
+        if (answers[q.id]) att++;
+        if (marked[q.id]) markedCount++;
+      });
+
+      const left = sectionQuestions.length - att;
+      
+      // Update overall totals
+      totalAttempted += att;
+      totalMarked += markedCount;
+
+      modalTableHtml += `
+        <tr>
+          <td style="padding: 8px; border: 1px solid #ddd;"><b>${name}</b></td>
+          <td style="padding: 8px; border: 1px solid #ddd; color: var(--success);">${att}</td>
+          <td style="padding: 8px; border: 1px solid #ddd; color: var(--danger);">${left}</td>
+          <td style="padding: 8px; border: 1px solid #ddd; color: var(--accent);">${markedCount}</td>
+        </tr>`;
+    });
+
+    const totalLeft = totalQuestionsInQuiz - totalAttempted;
+
+    modalTableHtml += `
+          </tbody>
+          <tfoot>
+            <tr style="background-color: #f9f9f9; font-weight: bold;">
+              <td style="padding: 8px; border: 1px solid #ddd;">Total</td>
+              <td style="padding: 8px; border: 1px solid #ddd; color: var(--success);">${totalAttempted}</td>
+              <td style="padding: 8px; border: 1px solid #ddd; color: var(--danger);">${totalLeft}</td>
+              <td style="padding: 8px; border: 1px solid #ddd; color: var(--accent);">${totalMarked}</td>
+            </tr>
+            <tr style="background-color: #eee; font-weight: 800; text-align: center;">
+              <td colspan="4" style="padding: 10px; border: 1px solid #ddd;">
+                Overall: ${totalAttempted} / ${totalQuestionsInQuiz} Attempted
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>`;
+
+    el("submitMsg").innerHTML = `<div style="text-align:center; font-weight:700; margin-bottom:10px;">Exam Summary</div>` + modalTableHtml;
     el("submitModal").style.display = "flex";
-  };
+};
+  
   el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
   el("confirmSubmit").addEventListener("click", ()=> { el("submitModal").style.display = "none"; submitQuiz(); });
 }
@@ -2605,6 +2670,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
