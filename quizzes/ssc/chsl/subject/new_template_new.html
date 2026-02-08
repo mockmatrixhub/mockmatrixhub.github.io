@@ -1447,13 +1447,7 @@ SECTION_NAMES.forEach(name => {
       <td>${fmt(d.timeTaken)}</td>
       
     </tr>`;
-  const topperSecRaw = topperStats.sections?.[name] || {};
-const topperSec = {
-  score: topperSecRaw.score || 0,
-  correct: topperSecRaw.correct || 0,
-  wrong: topperSecRaw.wrong || 0,
-  timeTaken: topperSecRaw.timeTaken || 0
-};
+  
 
   const secAttempted = d.correct + d.wrong;
 
@@ -2610,6 +2604,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
