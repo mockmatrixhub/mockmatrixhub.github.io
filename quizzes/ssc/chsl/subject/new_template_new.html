@@ -1899,6 +1899,9 @@ async function refreshLatestRankOnDemand(btn) {
   btn.textContent = "Updating All Parts...";
 
   try {
+    // SAFETY: Use payload total or default to calculate question count if CORRECT_SCORE is missing
+    const scorePerQ = Number(CORRECT_SCORE) || 2;
+    const totalQuestionsCount = payload.total / scorePerQ; 
     const payload = resultData.firebasePayload;
     const resultsContainer = document.getElementById("results");
 
@@ -1920,9 +1923,8 @@ async function refreshLatestRankOnDemand(btn) {
     // 2. Fetch Topper Data
     const toppersList = await getToppersList(QUIZ_ID);
     
-    // SAFETY: Use payload total or default to calculate question count if CORRECT_SCORE is missing
-    const scorePerQ = Number(CORRECT_SCORE) || 2;
-    const totalQuestionsCount = payload.total / scorePerQ; 
+    
+    
     const topperStats = getTopperStatsForComparison(toppersList, totalQuestionsCount);
 
     // 3. Calculate local variables needed for the bars
@@ -2757,6 +2759,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
