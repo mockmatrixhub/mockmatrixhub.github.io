@@ -1594,7 +1594,7 @@ sectionalTableHtml += `</table></div></div>`;
           </div>
         </div>
 
-        <div class="card-dashboard">
+        <div class="card-dashboard" id="topperTableCard">
           <h3 class="section-title">🏆 Top 10 Toppers(first attempt)</h3>
           <div style="overflow-x:auto">
             <table class="topper-table">
@@ -1950,11 +1950,8 @@ async function refreshLatestRankOnDemand(btn) {
     const toppersList = await getToppersList(QUIZ_ID);
     const topperStats = getTopperStatsForComparison(toppersList, totalQuestionsCount);
 
-    // 🔥 FIX: Update Top-10 Toppers Table (LIVE)
-const topperTable = Array.from(
-  resultsContainer.querySelectorAll(".section-title")
-).find(el => el.textContent.includes("Top 10 Toppers"))
- ?.closest(".card-dashboard");
+    
+const topperTable = document.getElementById("topperTableCard");
 
 if (topperTable) {
   topperTable.innerHTML = `
@@ -2804,6 +2801,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
