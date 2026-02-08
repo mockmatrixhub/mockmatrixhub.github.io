@@ -2594,6 +2594,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadQuizData(); 
 });
 
+
 // ===============================
 // 🌐 DYNAMIC FETCH LOGIC (With Auto-Resume)
 // ===============================
@@ -2624,12 +2625,11 @@ async function loadQuizData() {
     // Set initial seconds
     seconds = data.meta.timer_seconds;
 
-    
-    
-
     // SECTIONAL LOGIC HANDLING
     SECTIONS = data.sections; 
     SECTION_NAMES = Object.keys(SECTIONS);
+    // FIX: Initialize QUESTIONS immediately so renderQuestion doesn't crash on reload
+    QUESTIONS = SECTIONS[SECTION_NAMES[0]]; 
 
     // 3. Set Derived Keys
     QUIZ_STATE_KEY = "ssc_quiz_state_" + QUIZ_ID;
@@ -2652,8 +2652,6 @@ async function loadQuizData() {
         nav.appendChild(btn);
       });
     }
-
-    
 
     // --- Updated Logic for Sectional Summary ---
     let welcomeTableHtml = "";
@@ -2709,7 +2707,7 @@ async function loadQuizData() {
     // 6. Hide Loader
     document.getElementById("loadingOverlay").style.display = "none";
 
-        // 7. Run Initialization
+    // 7. Run Initialization
     init();
 
     // 8. 🔥 FIXED AUTO-RESUME LOGIC 🔥
@@ -2741,14 +2739,11 @@ async function loadQuizData() {
       }
     }
 
-    
-
   } catch (error) {
     console.error(error);
     document.getElementById("loadingText").innerHTML = `Error loading quiz.<br><small>${error.message}</small>`;
   }
 }
-
 // 🛡️ PROTECTION SCRIPT
 (function () {
   // Disable right click
@@ -2774,23 +2769,3 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
