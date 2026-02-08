@@ -2600,18 +2600,25 @@ async function loadQuizData() {
     QUIZ_STATE_KEY = "ssc_quiz_state_" + QUIZ_ID;
     QUIZ_RESULT_KEY = "ssc_quiz_result_" + QUIZ_ID;
 
-    // 4. Build Section Buttons (PART-A, PART-B...)
+    // 4. Build Section Buttons (Modified to show PART A, PART B...)
     const nav = document.getElementById("sectionNav");
     if(nav) {
       nav.innerHTML = "";
       SECTION_NAMES.forEach((name, i) => {
         const btn = document.createElement("button");
         btn.className = "sec-btn" + (i === 0 ? " active" : "");
-        btn.textContent = name;
+        
+        // This logic converts index 0 to 'A', 1 to 'B', etc.
+        const partLabel = "PART " + String.fromCharCode(65 + i); 
+        btn.textContent = partLabel;
+        
+        // The click still uses the index to load the real section data
         btn.onclick = () => switchSection(i);
         nav.appendChild(btn);
       });
     }
+
+    
 
     // --- Updated Logic for Sectional Summary ---
     let welcomeTableHtml = "";
@@ -2732,6 +2739,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
