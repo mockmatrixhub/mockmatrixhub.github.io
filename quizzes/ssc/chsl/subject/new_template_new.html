@@ -1894,70 +1894,98 @@ function restoreLatestResult() {
   }
 }
 
-  // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
+
+// Enhanced: Powerful Live Updated Rank (Firebase-Authoritative, Reload-Safe)
 async function refreshLatestRankOnDemand(btn) {
- 
-  const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
-  if (!resultData || !resultData.firebasePayload) {
-    alert("No submission data found to update.");
-    return;
-  }
 
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
 
   try {
-    // 1. Define payload FIRST
-    const payload = resultData.firebasePayload;
-    
-    // 2. Define resultsContainer SECOND
+    /* ======================================================
+       1️⃣ ALWAYS FETCH LATEST ATTEMPT FROM FIREBASE
+       (Same behaviour as quiz_template (33).html)
+       ====================================================== */
+    const snap = await db
+      .ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID)
+      .limitToLast(1)
+      .once("value");
+
+    const data = snap.val();
+    if (!data) {
+      alert("No submission data found to update.");
+      return;
+    }
+
+    const latestAttempt = Object.values(data)[0];
+
+    /* ======================================================
+       2️⃣ NORMALIZE PAYLOAD (MATCHES EXISTING LOGIC)
+       ====================================================== */
+    const payload = {
+      score: latestAttempt.score,
+      correct: latestAttempt.correct,
+      wrong: latestAttempt.wrong,
+      timeTaken: latestAttempt.timeTaken,
+      total: latestAttempt.total,
+      submittedAt: latestAttempt.submittedAt,
+      sections: latestAttempt.sections || {}
+    };
+
     const resultsContainer = document.getElementById("results");
 
-    // 3. NOW you can use payload to calculate other things
     const scorePerQ = Number(CORRECT_SCORE) || 2;
-    const totalQuestionsCount = payload.total / scorePerQ; 
-    
-    
+    const totalQuestionsCount = payload.total / scorePerQ;
 
-    // 1. Update Latest Global Total Rank
+    /* ======================================================
+       3️⃣ GLOBAL RANK & PERCENTILE (LIVE)
+       ====================================================== */
     const totalRank = await getRankAndPercentile(
       QUIZ_ID,
       payload.score,
       payload.timeTaken,
       payload.submittedAt
     );
-    
-    // Update Score Summary UI Boxes
+
     const scoreItems = document.querySelectorAll(".score-item p");
-    if(scoreItems.length >= 2) {
+    if (scoreItems.length >= 2) {
       scoreItems[0].textContent = `${totalRank.rank} / ${totalRank.total}`;
       scoreItems[1].textContent = `${totalRank.percentile}%`;
     }
 
-    // 2. Fetch Topper Data
+    /* ======================================================
+       4️⃣ TOPPER DATA
+       ====================================================== */
     const toppersList = await getToppersList(QUIZ_ID);
-    
-    
-    
-    const topperStats = getTopperStatsForComparison(toppersList, totalQuestionsCount);
+    const topperStats = getTopperStatsForComparison(
+      toppersList,
+      totalQuestionsCount
+    );
 
-    // 3. Calculate local variables needed for the bars
+    /* ======================================================
+       5️⃣ ACCURACY
+       ====================================================== */
     const totalAttempted = payload.correct + payload.wrong;
-    const accuracy = totalAttempted > 0 
-        ? ((payload.correct / totalAttempted) * 100).toFixed(2) 
-        : "0.00";
+    const accuracy = totalAttempted
+      ? ((payload.correct / totalAttempted) * 100).toFixed(2)
+      : "0.00";
 
-    // 4. Update Comparison Bars
-    const mainBars = Array.from(resultsContainer.querySelectorAll(".section-title"))
-      .find(el => el.textContent.includes("Complete Test"))?.closest(".card-dashboard");
+    /* ======================================================
+       6️⃣ MAIN + SECTIONAL COMPARISON BARS
+       ====================================================== */
+    const mainBars = Array.from(
+      resultsContainer.querySelectorAll(".section-title")
+    ).find(el => el.textContent.includes("Complete Test"))
+     ?.closest(".card-dashboard");
 
     if (mainBars) {
+
       let secBarsHTML = "";
-      
-      // SAFETY: Use keys from payload sections if SECTION_NAMES is empty on reload
-      const namesToProcess = (SECTION_NAMES && SECTION_NAMES.length > 0) 
-                             ? SECTION_NAMES 
-                             : Object.keys(payload.sections || {});
+
+      const namesToProcess =
+        (SECTION_NAMES && SECTION_NAMES.length > 0)
+          ? SECTION_NAMES
+          : Object.keys(payload.sections || {});
 
       namesToProcess.forEach(name => {
         const mySec = payload.sections[name];
@@ -1973,8 +2001,14 @@ async function refreshLatestRankOnDemand(btn) {
 
         const myAttempted = mySec.correct + mySec.wrong;
         const topperAttempted = topperSec.correct + topperSec.wrong;
-        const myAcc = myAttempted ? ((mySec.correct / myAttempted) * 100).toFixed(2) : "0.00";
-        const topperAcc = topperAttempted ? ((topperSec.correct / topperAttempted) * 100).toFixed(2) : "0.00";
+
+        const myAcc = myAttempted
+          ? ((mySec.correct / myAttempted) * 100).toFixed(2)
+          : "0.00";
+
+        const topperAcc = topperAttempted
+          ? ((topperSec.correct / topperAttempted) * 100).toFixed(2)
+          : "0.00";
 
         secBarsHTML += `
           <h4 class="section-title" style="margin-top:25px; border-left:4px solid var(--accent); padding-left:10px;">
@@ -1997,17 +2031,19 @@ async function refreshLatestRankOnDemand(btn) {
         ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS || 3600, topperStats.time, TOTAL_TIME_SECONDS || 3600)}
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
-      
-       // Re-format time strings from seconds to MM:SS
+
       formatTimeValues(mainBars);
     }
 
-
-    // 5. Save updated HTML back to storage
+    /* ======================================================
+       7️⃣ PERSIST UPDATED DASHBOARD FOR RELOAD
+       ====================================================== */
     LAST_RESULT_HTML = resultsContainer.innerHTML;
+
     localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
-      ...resultData,
-      resultHTML: LAST_RESULT_HTML
+      submitted: true,
+      resultHTML: LAST_RESULT_HTML,
+      firebasePayload: payload
     }));
 
     alert("All Ranks and Comparison Bars updated to the latest data!");
@@ -2016,7 +2052,6 @@ async function refreshLatestRankOnDemand(btn) {
     console.error("Live Update Error:", err);
     alert("Could not update ranks. Please check your connection.");
   } finally {
-    // This ensures the button is ALWAYS reset regardless of errors
     btn.disabled = false;
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
@@ -2769,6 +2804,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
