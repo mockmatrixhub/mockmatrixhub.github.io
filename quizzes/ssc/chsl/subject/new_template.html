@@ -1569,16 +1569,18 @@ sectionalTableHtml += `</table></div></div>`;
       resBox.innerHTML = dashboardHTML;
       resBox.style.display = "block";
 
-      resBox.querySelectorAll(".bar-section").forEach(sec => {
-        const label = sec.querySelector(".bar-label span")?.textContent;
-        if (label === "Time Taken") {
-          const values = sec.querySelectorAll("span[style*='text-align:right']");
-          if (values.length === 2) {
-            values[0].textContent = fmt(timeTakenSeconds);
-            values[1].textContent = fmt(topperStats.time);
-          }
-        }
-      });
+      resBox.querySelectorAll("#comparisonModule > .bar-section").forEach(sec => {
+  const label = sec.querySelector(".bar-label span")?.textContent;
+  if (label === "Time Taken") {
+    const values = sec.querySelectorAll("span[style*='text-align:right']");
+    if (values.length === 2) {
+      values[0].textContent = fmt(timeTakenSeconds);   // YOU (total)
+      values[1].textContent = fmt(topperStats.time);   // TOPPER (total)
+    }
+  }
+});
+
+      
 
       LAST_RESULT_HTML = dashboardHTML;
       localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
@@ -1871,19 +1873,7 @@ async function refreshLatestRankOnDemand(btn) {
       scoreItems[1].textContent = `${totalRank.percentile}%`;
     }
 
-    // 2. NEW: Update Sectional Ranks in the Table
-    for (const sName of SECTION_NAMES) {
-      const secData = payload.sections[sName];
-      const secId = sName.replace(/\s+/g, '');
-      
-      // Fetch rank specifically for this section's score
-      const sRank = await getSectionalRank(QUIZ_ID, sName, secData.score);
-      
-      const rankCell = el(`rank-${secId}`);
-      const percCell = el(`perc-${secId}`);
-      if(rankCell) rankCell.textContent = `#${sRank.rank}`;
-      if(percCell) percCell.textContent = `${sRank.percentile}%`;
-    }
+    
 
     // 3. Update All Comparison Bars (Total + Sections)
     const toppersList = await getToppersList(QUIZ_ID);
@@ -1951,18 +1941,17 @@ SECTION_NAMES.forEach(name => {
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
 
-      
-      // Re-fix Time text formats
-      mainBars.querySelectorAll(".bar-section").forEach(sec => {
-        if (sec.querySelector(".bar-label span")?.textContent === "Time Taken") {
-          const vals = sec.querySelectorAll("span[style*='text-align:right']");
-          if (vals.length === 2) {
-            vals[0].textContent = fmt(payload.timeTaken);
-            vals[1].textContent = fmt(topperStats.time);
-          }
-        }
-      });
+      resBox.querySelectorAll("#comparisonModule > .bar-section").forEach(sec => {
+  const label = sec.querySelector(".bar-label span")?.textContent;
+  if (label === "Time Taken") {
+    const values = sec.querySelectorAll("span[style*='text-align:right']");
+    if (values.length === 2) {
+      values[0].textContent = fmt(timeTakenSeconds);   // YOU (total)
+      values[1].textContent = fmt(topperStats.time);   // TOPPER (total)
     }
+  }
+});
+
 
     // 4. Persist updated HTML
     LAST_RESULT_HTML = resultsContainer.innerHTML;
@@ -2602,6 +2591,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
