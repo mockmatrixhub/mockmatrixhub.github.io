@@ -1894,13 +1894,28 @@ function restoreLatestResult() {
   }
 }
 
-  // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
+ 
+ // Enhanced: Powerful Live Updated Rank (Fixed Reload Logic)
 async function refreshLatestRankOnDemand(btn) {
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
   if (!resultData || !resultData.firebasePayload) {
     alert("No submission data found to update.");
     return;
   }
+
+  // 🔥 FIX 1: Restore critical globals on reload
+  QUIZ_ID = resultData.firebasePayload.quizId;
+  TOTAL_TIME_SECONDS = resultData.timeTakenSeconds || TOTAL_TIME_SECONDS;
+  CORRECT_SCORE = CORRECT_SCORE || 2;
+
+  if (!QUIZ_ID) {
+    alert("Quiz data not fully loaded. Please refresh once.");
+    return;
+  }
+
+  // 🔥 FIX 2: Button lock safety guard
+  if (btn.dataset.loading === "1") return;
+  btn.dataset.loading = "1";
 
   btn.disabled = true;
   btn.textContent = "Updating All Parts...";
@@ -1915,8 +1930,6 @@ async function refreshLatestRankOnDemand(btn) {
     // 3. NOW you can use payload to calculate other things
     const scorePerQ = Number(CORRECT_SCORE) || 2;
     const totalQuestionsCount = payload.total / scorePerQ; 
-    
-    
 
     // 1. Update Latest Global Total Rank
     const totalRank = await getRankAndPercentile(
@@ -1928,23 +1941,20 @@ async function refreshLatestRankOnDemand(btn) {
     
     // Update Score Summary UI Boxes
     const scoreItems = document.querySelectorAll(".score-item p");
-    if(scoreItems.length >= 2) {
+    if (scoreItems.length >= 2) {
       scoreItems[0].textContent = `${totalRank.rank} / ${totalRank.total}`;
       scoreItems[1].textContent = `${totalRank.percentile}%`;
     }
 
     // 2. Fetch Topper Data
     const toppersList = await getToppersList(QUIZ_ID);
-    
-    
-    
     const topperStats = getTopperStatsForComparison(toppersList, totalQuestionsCount);
 
     // 3. Calculate local variables needed for the bars
     const totalAttempted = payload.correct + payload.wrong;
-    const accuracy = totalAttempted > 0 
-        ? ((payload.correct / totalAttempted) * 100).toFixed(2) 
-        : "0.00";
+    const accuracy = totalAttempted > 0
+      ? ((payload.correct / totalAttempted) * 100).toFixed(2)
+      : "0.00";
 
     // 4. Update Comparison Bars
     const mainBars = Array.from(resultsContainer.querySelectorAll(".section-title"))
@@ -1954,9 +1964,9 @@ async function refreshLatestRankOnDemand(btn) {
       let secBarsHTML = "";
       
       // SAFETY: Use keys from payload sections if SECTION_NAMES is empty on reload
-      const namesToProcess = (SECTION_NAMES && SECTION_NAMES.length > 0) 
-                             ? SECTION_NAMES 
-                             : Object.keys(payload.sections || {});
+      const namesToProcess = (SECTION_NAMES && SECTION_NAMES.length > 0)
+        ? SECTION_NAMES
+        : Object.keys(payload.sections || {});
 
       namesToProcess.forEach(name => {
         const mySec = payload.sections[name];
@@ -1996,11 +2006,10 @@ async function refreshLatestRankOnDemand(btn) {
         ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS || 3600, topperStats.time, TOTAL_TIME_SECONDS || 3600)}
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
-      
-       // Re-format time strings from seconds to MM:SS
+
+      // Re-format time strings from seconds to MM:SS
       formatTimeValues(mainBars);
     }
-
 
     // 5. Save updated HTML back to storage
     LAST_RESULT_HTML = resultsContainer.innerHTML;
@@ -2015,12 +2024,13 @@ async function refreshLatestRankOnDemand(btn) {
     console.error("Live Update Error:", err);
     alert("Could not update ranks. Please check your connection.");
   } finally {
-    // This ensures the button is ALWAYS reset regardless of errors
+    // 🔥 Always unlock button
     btn.disabled = false;
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
+    btn.dataset.loading = "0";
   }
 }
- 
+
 
 // Helper to fix the time formatting in bars
 function formatTimeValues(container) {
@@ -2768,5 +2778,6 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
