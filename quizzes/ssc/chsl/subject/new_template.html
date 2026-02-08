@@ -1540,7 +1540,7 @@ sectionalTableHtml += `</table></div></div>`;
           ${renderComparisonBar("Score", totalMarks, maxTotalMarks, topperStats.score, maxTotalMarks)}
           ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
           ${renderComparisonBar("Correct", totalCorrect, totalQuestionsCount, topperStats.correct, totalQuestionsCount)}
-          ${renderComparisonBar("Wrong", wrong, QUESTIONS.length, topperStats.wrong, QUESTIONS.length, "", true)}
+          ${renderComparisonBar("Wrong", totalWrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
           ${renderComparisonBar("Time Taken", timeTakenSeconds, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
 
           <div id="sectionalBarsContainer">
@@ -1970,7 +1970,7 @@ SECTION_NAMES.forEach(name => {
         ${renderComparisonBar("Score", payload.score, payload.total, topperStats.score, payload.total)}
         ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
         ${renderComparisonBar("Correct", payload.correct, payload.total/2, topperStats.correct, payload.total/2)}
-        ${renderComparisonBar("Wrong", wrong, QUESTIONS.length, topperStats.wrong, QUESTIONS.length, "", true)}
+        ${renderComparisonBar("Wrong", totalWrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
         ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
@@ -2647,3 +2647,4 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
