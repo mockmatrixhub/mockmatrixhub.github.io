@@ -1736,21 +1736,22 @@ function getRankAndPercentile(quizId, myScore, myTime, mySubmittedAt) {
 }
 
 // 4. Fetch Top 10 List
+
 function getToppersList(quizId) {
-  return db.ref("quiz_results/" + quizId).once("value").then(snapshot => {
-    const data = snapshot.val();
-    if (!data) return [];
-
-    let all = Object.values(data);
-    // Sort: Score High->Low, Time Low->High
-    all.sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return a.timeTaken - b.timeTaken;
+  return firebase.database().ref("quiz_results/" + quizId)
+    .get()
+    .then(snapshot => {
+      if (!snapshot.exists()) return [];
+      let all = Object.values(snapshot.val());
+      all.sort((a,b)=>{
+        if (b.score !== a.score) return b.score - a.score;
+        return a.timeTaken - b.timeTaken;
+      });
+      return all.slice(0,10);
     });
-
-    return all.slice(0, 10);
-  });
 }
+
+
 
 // 5. Get Topper Stats for Bar Chart (Updated for Sectional scaling)
 function getTopperStatsForComparison(toppersList, totalQ) {
@@ -1949,7 +1950,14 @@ async function refreshLatestRankOnDemand(btn) {
     }
 
     // 2. Fetch Topper Data
-    const toppersList = await getToppersList(QUIZ_ID);
+    
+    const toppersList = await Promise.race([
+  getToppersList(QUIZ_ID),
+  new Promise(resolve => setTimeout(() => resolve([]), 4000))
+]);
+
+
+    
     const topperStats = getTopperStatsForComparison(toppersList, totalQuestionsCount);
 
     
@@ -2813,6 +2821,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
