@@ -834,6 +834,26 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
         <div class="detail-value"><span id="disp_time">-</span> Minutes</div>
       </div>
     </div>
+
+    <div id="welcomeSectionTableContainer" style="margin-bottom: 24px;">
+  <h3 style="margin-bottom: 12px; font-size: 16px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 10px; color: #333;">Test Summary</h3>
+  <div style="overflow-x:auto;">
+    <table style="width:100%; border-collapse: collapse; background: #fff; border: 1px solid #ddd; font-size: 13px;">
+      <thead>
+        <tr style="background: #f1f5f9; color: #444;">
+          <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Section Name</th>
+          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Questions</th>
+          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Marks</th>
+          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Negative</th>
+        </tr>
+      </thead>
+      <tbody id="welcomeSectionTableBody">
+        </tbody>
+      <tfoot id="welcomeSectionTableFoot" style="background: #f8fbff; font-weight: 800; color: #222;">
+        </tfoot>
+    </table>
+  </div>
+</div>
     <div class="welcome-instructions">
       <h3>1. Quiz Mode Symbols (During Test)</h3>
       <div class="symbol-list">
@@ -2571,6 +2591,40 @@ async function loadQuizData() {
     // Set initial seconds
     seconds = data.meta.timer_seconds;
 
+    // --- Logic for Welcome Screen Summary Table ---
+    let welcomeTableHtml = "";
+    let totalQuestionsCount = 0;
+
+    SECTION_NAMES.forEach(name => {
+      // Use the actual length of the question array for each section
+      const sectionCount = SECTIONS[name].length;
+      totalQuestionsCount += sectionCount;
+      
+      welcomeTableHtml += `
+        <tr>
+          <td style="padding: 10px; border: 1px solid #ddd;"><b>${name}</b></td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${sectionCount}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: var(--success);">+${CORRECT_SCORE}</td>
+          <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: var(--danger);">${NEGATIVE_SCORE}</td>
+        </tr>`;
+    });
+
+    // Inject the rows into the table body
+    el("welcomeSectionTableBody").innerHTML = welcomeTableHtml;
+
+    // Inject the total sum into the table footer
+    el("welcomeSectionTableFoot").innerHTML = `
+      <tr>
+        <td style="padding: 10px; border: 1px solid #ddd;">Total</td>
+        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${totalQuestionsCount}</td>
+        <td colspan="2" style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+          Time: ${data.meta.timer_minutes} Mins
+        </td>
+      </tr>`;
+
+    // Ensure the top detail box also shows the correct sum
+    el("disp_totalQ").textContent = totalQuestionsCount;
+
     // SECTIONAL LOGIC HANDLING
     SECTIONS = data.sections; 
     SECTION_NAMES = Object.keys(SECTIONS);
@@ -2597,7 +2651,7 @@ async function loadQuizData() {
     document.getElementById("headerTitle").textContent = QUIZ_TITLE;
     document.getElementById("disp_quizTitle").textContent = QUIZ_TITLE;
     document.getElementById("disp_quizId").textContent = QUIZ_ID;
-    document.getElementById("disp_totalQ").textContent = "Sectional Test"; 
+    
     document.getElementById("disp_correct").textContent = "+" + CORRECT_SCORE;
     document.getElementById("disp_negative").textContent = "-" + NEGATIVE_SCORE;
     document.getElementById("disp_time").textContent = data.meta.timer_minutes;
@@ -2670,6 +2724,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
