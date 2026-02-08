@@ -2589,6 +2589,30 @@ async function loadQuizData() {
     // Set initial seconds
     seconds = data.meta.timer_seconds;
 
+    
+    
+
+    // SECTIONAL LOGIC HANDLING
+    SECTIONS = data.sections; 
+    SECTION_NAMES = Object.keys(SECTIONS);
+
+    // 3. Set Derived Keys
+    QUIZ_STATE_KEY = "ssc_quiz_state_" + QUIZ_ID;
+    QUIZ_RESULT_KEY = "ssc_quiz_result_" + QUIZ_ID;
+
+    // 4. Build Section Buttons (PART-A, PART-B...)
+    const nav = document.getElementById("sectionNav");
+    if(nav) {
+      nav.innerHTML = "";
+      SECTION_NAMES.forEach((name, i) => {
+        const btn = document.createElement("button");
+        btn.className = "sec-btn" + (i === 0 ? " active" : "");
+        btn.textContent = name;
+        btn.onclick = () => switchSection(i);
+        nav.appendChild(btn);
+      });
+    }
+
     // --- Updated Logic for Sectional Summary ---
     let welcomeTableHtml = "";
     let totalQuestionsCount = 0;
@@ -2629,28 +2653,6 @@ async function loadQuizData() {
     const totalQBox = document.getElementById("disp_totalQ");
     if (totalQBox) totalQBox.textContent = totalQuestionsCount;
 
-    
-
-    // SECTIONAL LOGIC HANDLING
-    SECTIONS = data.sections; 
-    SECTION_NAMES = Object.keys(SECTIONS);
-
-    // 3. Set Derived Keys
-    QUIZ_STATE_KEY = "ssc_quiz_state_" + QUIZ_ID;
-    QUIZ_RESULT_KEY = "ssc_quiz_result_" + QUIZ_ID;
-
-    // 4. Build Section Buttons (PART-A, PART-B...)
-    const nav = document.getElementById("sectionNav");
-    if(nav) {
-      nav.innerHTML = "";
-      SECTION_NAMES.forEach((name, i) => {
-        const btn = document.createElement("button");
-        btn.className = "sec-btn" + (i === 0 ? " active" : "");
-        btn.textContent = name;
-        btn.onclick = () => switchSection(i);
-        nav.appendChild(btn);
-      });
-    }
 
     // 5. Update UI Texts
     document.title = QUIZ_TITLE;
@@ -2730,6 +2732,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
