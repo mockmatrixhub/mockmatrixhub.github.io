@@ -2054,22 +2054,32 @@ if (topperTable) {
   }
 }
 
-
-// Helper to fix the time formatting in bars
 function formatTimeValues(container) {
+  if (!container) return;
+
   container.querySelectorAll(".bar-section").forEach(sec => {
-    const label = sec.querySelector(".bar-label span")?.textContent;
-    if (label === "Time Taken") {
-      const values = sec.querySelectorAll("span[style*='text-align:right']");
-      values.forEach(val => {
-        const raw = val.textContent.replace('%', '').trim();
-        if (!isNaN(raw) && raw !== "") {
-          val.textContent = fmt(parseInt(raw));
-        }
-      });
-    }
+    const labelEl = sec.querySelector(".bar-label span");
+    if (!labelEl) return;
+
+    if (labelEl.textContent !== "Time Taken") return;
+
+    const values = sec.querySelectorAll("span[style*='text-align:right']");
+    values.forEach(val => {
+      if (!val || !val.textContent) return;
+
+      const txt = val.textContent.trim();
+
+      // ⛔ already formatted MM:SS → skip
+      if (txt.includes(":")) return;
+
+      if (!isNaN(txt)) {
+        val.textContent = fmt(parseInt(txt, 10));
+      }
+    });
   });
 }
+
+
  
 // ===============================
 // ?? HISTORY & ATTEMPT REVIEW
@@ -2801,6 +2811,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
