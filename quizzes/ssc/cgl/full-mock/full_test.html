@@ -504,14 +504,13 @@ body.mode-solution .qbtn.current::before {
 /* DESKTOP LAYOUT */
 @media (min-width: 992px) {
 
-  /* 1. Grid Layout */
+  
+ /* Quiz area occupies full left space */
   .quiz-main-area {
-    display: grid;
-    grid-template-columns: 1fr 320px; /* Question | Palette */
-    gap: 24px;
-    align-items: start;
+    display: block;
+    margin-right: 360px;   /* touches palette */
   }
- 
+
   #palette {
     display: flex !important;
 
@@ -542,6 +541,8 @@ body.mode-solution .qbtn.current::before {
     z-index: 50;
   }
 
+
+  
 
 
   /* Desktop specific Submit Button inside Palette */
