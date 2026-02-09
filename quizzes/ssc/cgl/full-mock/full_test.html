@@ -498,26 +498,24 @@ body.mode-solution .qbtn.current::before {
 #markBtn.active-mark { background: var(--success) !important; }
 
 
-/* =========================================
-   8. MEDIA QUERIES (The "Testbook" Logic)
-   ========================================= */
-/* DESKTOP LAYOUT */
+
+
 @media (min-width: 992px) {
 
-  
+  /* ===============================
+     GLOBAL DESKTOP WIDTH RESET
+     =============================== */
 
-  /* Remove right padding so quiz touches palette */
   .container {
+    max-width: none;
+    width: 100%;
     padding-right: 0;
   }
 
-  /* Quiz area ends exactly at palette */
-  .quiz-main-area {
-    display: block;
-    margin-right: 360px;   /* SAME as palette width */
-  }
+  /* ===============================
+     PALETTE (RIGHT FIXED)
+     =============================== */
 
-  /* Fixed continuous right palette */
   #palette {
     display: flex !important;
     position: fixed;
@@ -529,34 +527,48 @@ body.mode-solution .qbtn.current::before {
     border-left: 1px solid var(--border-color);
     border-radius: 0;
     overflow-y: auto;
-    overscroll-behavior: contain;
     z-index: 50;
   }
 
+  /* ===============================
+     QUIZ AREA (LEFT CONTENT)
+     =============================== */
+
+  /* Leave space for palette + small gap */
+  .quiz-main-area {
+    margin-right: 372px; /* 360 + 12 gap */
+  }
+
+  /* Quiz card should stretch fully */
+  #quizCard {
+    max-width: none;
+    margin-right: 12px;   /* 👈 visual gap from palette */
+    border-radius: 8px;
+  }
+
+  /* ===============================
+     NAME CONTAINER ALIGNMENT
+     =============================== */
+
   #nameContainer {
-    max-width: calc(100% - 360px);
-    margin-right: 360px;
+    max-width: none;
+    margin-left: auto;
+    margin-right: 372px;  /* SAME as quiz-main-area */
+    padding: 0 16px;
+  }
+
+  /* ===============================
+     SECTION BUTTON ALIGNMENT
+     =============================== */
+
+  #sectionNav {
+    max-width: none;
+    margin-left: auto;
+    margin-right: 372px;  /* SAME alignment as quiz card */
+    padding-left: 16px;
     padding-right: 16px;
   }
 
-  /* 🔑 Allow quiz to use full screen width */
-  .container {
-    max-width: none;
-    width: 100%;
-    padding-right: 0;
-  }
-
-  /* Quiz content stops exactly at palette */
-  .quiz-main-area {
-    margin-right: 360px; /* palette width */
-  }
-
-  /* Card stretches fully till palette */
-  #quizCard {
-    max-width: none;
-    border-right: none;
-    border-radius: 8px 0 0 8px;
-  }
 
 
 
