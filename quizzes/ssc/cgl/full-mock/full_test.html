@@ -505,40 +505,36 @@ body.mode-solution .qbtn.current::before {
 @media (min-width: 992px) {
 
   
- /* Quiz area occupies full left space */
-  .quiz-main-area {
-    display: block;
-    margin-right: 360px;   /* touches palette */
+
+  /* Remove right padding so quiz touches palette */
+  .container {
+    padding-right: 0;
   }
 
+  /* Quiz area ends exactly at palette */
+  .quiz-main-area {
+    display: block;
+    margin-right: 360px;   /* SAME as palette width */
+  }
+
+  /* Fixed continuous right palette */
   #palette {
     display: flex !important;
-
-    /* 🔑 THIS is the key */
     position: fixed;
-
-    /* Start exactly below header */
     top: var(--header-height);
     right: 0;
-
-    /* Full height till bottom */
-    height: calc(100vh - var(--header-height));
-
-    /* Width from quiz card to right edge */
     width: 360px;
-
-    /* Continuous look */
-    border-radius: 0;
-    border-left: 1px solid var(--border-color);
-    border-right: none;
-
+    height: calc(100vh - var(--header-height));
     background: #dae5f0 !important;
-
-    /* Internal scroll */
+    border-left: 1px solid var(--border-color);
+    border-radius: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-
     z-index: 50;
+  }
+#nameContainer {
+    max-width: calc(100% - 360px); /* 🔑 stops before palette */
+    padding-right: 16px;           /* keeps clean spacing */
   }
 
 
