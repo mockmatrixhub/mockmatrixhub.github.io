@@ -513,16 +513,21 @@ body.mode-solution .qbtn.current::before {
   }
  
   /* 2. Palette Sticky & Visible */
+  /* 3. Palette Positioning */
   #palette {
-    display: flex !important; /* Always show */
+    display: flex !important;
     position: sticky;
-    top: 80px; /* Below header */
-    height: calc(100vh - 100px);
-    overflow-y: auto;
-    border: 1px solid var(--border-color);
+    top: 60px; /* Starts exactly below the Main Header height */
+    height: calc(100vh - 60px); /* Full height from header to bottom */
+    border-radius: 0; /* Remove rounding for the edge-to-edge look */
+    border-left: 1px solid var(--border-color);
+    border-right: none; /* Touches screen edge */
+    z-index: 10;
+     overflow-y: auto;
     overscroll-behavior: contain;
-    z-index: 10; /* Lower z-index so header buttons stay on top */
+    background: #dae5f0 !important;
   }
+  
 
   /* Desktop specific Submit Button inside Palette */
   #palette #submitBtn {
@@ -2801,6 +2806,7 @@ async function loadQuizData() {
 </script>
 </body>
 </html>
+
 
 
 
