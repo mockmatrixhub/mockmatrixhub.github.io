@@ -1450,40 +1450,45 @@ function renderQuestion(i) {
 
     const div = document.createElement("div");
     div.className = "opt";
-
 // AFTER div.innerHTML is set 👇
 
 if (isQuiz) {
   if (isSelected) div.classList.add("selected");
 
   if (window.innerWidth < 992) {
-    // 📱 mobile → full row
+    // 📱 Mobile: full row clickable
     div.onclick = () => selectOption(q, optionIndex, div);
   } else {
-    // 🖥 desktop → only radio
+    // 🖥 Desktop: ONLY radio clickable
     div.onclick = null;
-    const radio = div.querySelector(".custom-radio");
-    radio.onclick = (e) => {
-      e.stopPropagation();
-      selectOption(q, optionIndex, div);
-    };
-  }
-}
 
+    const radio = div.querySelector(".custom-radio");
+    if (radio) {
+      radio.onclick = (e) => {
+        e.stopPropagation();
+        selectOption(q, optionIndex, div);
+      };
+    }
+  }
 
 } else {
+  // 🧾 Solution mode (no clicking)
   div.style.cursor = "default";
+
   if (isCorrectAns) {
     div.classList.add("correct");
     div.style.backgroundColor = "#e6f7ee";
     div.style.borderColor = "#2e7d32";
   }
+
   if (isSelected && !isCorrectAns) {
     div.classList.add("wrong");
     div.style.backgroundColor = "#fdeaea";
     div.style.borderColor = "#c82d3f";
   }
 }
+
+
 
 
     // 🖼️ OPTION IMAGE RENDER (40% size)
