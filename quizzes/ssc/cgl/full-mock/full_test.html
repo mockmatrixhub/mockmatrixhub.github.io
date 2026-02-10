@@ -2089,6 +2089,27 @@ async function refreshLatestRankOnDemand(btn) {
        // Re-format time strings from seconds to MM:SS
       formatTimeValues(mainBars);
     }
+          // 🔄 3. Topper table - Robust Selection (Finds table INSIDE results)
+        const topperCard = resultsContainer.querySelector(".topper-table")?.closest(".card-dashboard");
+
+        if (topperCard) {
+          topperCard.innerHTML = `
+            <h3 class="section-title">🏆 Top 10 Toppers (First Attempt)</h3>
+            <div style="overflow-x:auto">
+              <table class="topper-table">
+                <tr><th>Rank</th><th>Name</th><th>Score</th><th>Time</th></tr>
+                ${toppersList.map((t, idx) => `
+                  <tr>
+                    <td>${idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : '#' + (idx + 1)))}</td>
+                    <td>${t.name}</td>
+                    <td><b>${t.score}</b></td>
+                    <td>${fmt(t.timeTaken)}</td>
+                  </tr>
+                `).join("")}
+              </table>
+            </div>
+          `;
+        }
 
 
     // 5. Save updated HTML back to storage
