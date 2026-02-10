@@ -1153,6 +1153,8 @@ let SECTION_TIMERS = {};     // seconds per section from JSON
 let sectionSecondsLeft = 0; // remaining time of active section
 let completedSections = []; // submitted sections
 
+
+
 // ===============================
 // 🛠️ HELPER FUNCTIONS
 // ===============================
@@ -1222,6 +1224,20 @@ function startSectionTimer() {
   }, 1000);
 }
 
+function autoSubmitSection() {
+  lockCurrentSection();
+
+  const isLast = currentSectionIdx === SECTION_NAMES.length - 1;
+
+  if (!isLast) {
+    moveToNextSection();
+  } else {
+    // 🔥 FINAL SECTION TIME OVER → AUTO SUBMIT TEST
+    autoSubmitQuiz();
+  }
+}
+
+
 function switchSection(idx) {
 
   // ❌ Prevent reopening submitted sections
@@ -1247,6 +1263,20 @@ function switchSection(idx) {
   renderQuestion(0);
   updatePaletteSubmitButtons();
   saveQuizState();
+}
+function moveToNextSection() {
+  currentSectionIdx++;
+  sectionSecondsLeft = 0; // reset for next section
+
+  switchSection(currentSectionIdx);
+  updatePaletteSubmitButtons();
+  startSectionTimer();
+}
+function lockCurrentSection() {
+  const secName = SECTION_NAMES[currentSectionIdx];
+  if (!completedSections.includes(secName)) {
+    completedSections.push(secName);
+  }
 }
 
 
@@ -2396,29 +2426,45 @@ el("submitBtn").onclick = () => {
   el("cancelSubmit").onclick = () => el("submitModal").style.display = "none";
   el("confirmSubmit").addEventListener("click", ()=> { el("submitModal").style.display = "none"; submitQuiz(); });
 }
+
 // Build Palette Buttons
 function buildPalette() {
   const pal = el("palette");
   
-  // Re-structure palette to include legend, SECTION LABEL, grid, and fixed submit button
+  // Re-structure palette to include legend, SECTION LABEL, grid, and fixed submit buttons
   pal.innerHTML = `
     <div id="palette-legend"></div>
     <div id="palSectionLabel" style="background:#fff; padding:6px; margin-bottom:10px; text-align:center; font-weight:800; border:1px solid #ccc; font-size:12px; color:#333;"></div>
     <div id="palette-summary" style="margin-bottom:10px; font-weight:700; font-size:13px; text-align:center;"></div>
     <div id="palette-grid" class="palette-grid" style="overflow-y:auto; flex-grow:1;"></div>
-    <div class="palette-submit-container" id="palSubmitArea" style="padding:10px 0; border-top:1px solid #ccc; background:#dae5f0; text-align:center;">
-      <button id="palSubmitBtn" class="btn" style="width:95%; background:#1a73e8; color:white; font-weight:700; padding:12px; border-radius:4px; border:none; cursor:pointer;">Submit Test</button>
+
+    <div class="palette-submit-container" id="palSubmitArea"
+         style="padding:10px 0; border-top:1px solid #ccc; background:#dae5f0; text-align:center;">
+
+      <!-- 🔴 NEW: SUBMIT SECTION BUTTON -->
+      <button id="palSectionSubmitBtn"
+        class="btn"
+        style="width:95%; background:#198754; color:white; font-weight:700; padding:12px; border-radius:4px; border:none; cursor:pointer; margin-bottom:8px;">
+        Submit Section
+      </button>
+
+      <!-- EXISTING: SUBMIT TEST BUTTON -->
+      <button id="palSubmitBtn"
+        class="btn"
+        style="width:95%; background:#1a73e8; color:white; font-weight:700; padding:12px; border-radius:4px; border:none; cursor:pointer;">
+        Submit Test
+      </button>
     </div>
   `;
 
-  // NEW: Update Section Label inside Palette
+  // Update Section Label inside Palette
   const sName = SECTION_NAMES[currentSectionIdx] || "";
   el("palSectionLabel").textContent = sName.toUpperCase();
 
   const grid = el("palette-grid");
   grid.innerHTML = "";
   
-  // UPDATED: Numbering restarts from 1 because QUESTIONS is now scoped to the active section array
+  // Numbering restarts from 1 because QUESTIONS is section-scoped
   QUESTIONS.forEach((q, i) => {
     const btn = document.createElement("button");
     btn.className = "qbtn notvisited";
@@ -2430,16 +2476,24 @@ function buildPalette() {
     grid.appendChild(btn);
   });
 
-  // Attach submit event to the new button
+  // 🔴 NEW: SUBMIT SECTION LOGIC
+  el("palSectionSubmitBtn").onclick = () => {
+    if (!isQuiz) return;
+    if (!confirm("Submit this section? You cannot return.")) return;
+    autoSubmitSection();
+  };
+
+  // EXISTING: SUBMIT TEST LOGIC (UNCHANGED)
   el("palSubmitBtn").onclick = () => {
     if (isQuiz) {
-        el('submitBtn').click(); // Triggers your existing submit logic/modal
+      el('submitBtn').click();
     } else {
-        restoreLatestResult(); // If in solution mode, goes back to analysis
+      restoreLatestResult();
     }
   };
 
   updatePaletteLegend();
+  updatePaletteSubmitButtons(); // 🔴 REQUIRED: hide section button on last section
 }
 
 // Update Palette Colors
@@ -2561,6 +2615,14 @@ function updatePaletteLegend() {
         Correct: ${s_correct} | Wrong: ${s_wrong} | Skipped: ${s_skipped}
       </div>
     `;
+  }
+}
+function updatePaletteSubmitButtons() {
+  const isLast = currentSectionIdx === SECTION_NAMES.length - 1;
+  const secBtn = el("palSectionSubmitBtn");
+
+  if (secBtn) {
+    secBtn.style.display = isLast ? "none" : "block";
   }
 }
 
