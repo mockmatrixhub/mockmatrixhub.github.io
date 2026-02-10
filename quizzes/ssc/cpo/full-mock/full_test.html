@@ -282,24 +282,32 @@ h1 {
   font-weight: 500;
 }
 
-/* Options */
+
+/* EXAM STYLE OPTION ROW (LIKE SCREENSHOT) */
 .opt {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 16px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
+
+  padding: 10px 14px;
+
+  border: 1px solid #d6d6d6;
+  border-top: none;
+  border-radius: 0;
+  margin: 0;
+
   background: #fff;
 }
-.opt:hover { background: #f8f9fa; border-color: #bbb; }
 
+/* first option gets top border */
+.opt:first-child {
+  border-top: 1px solid #d6d6d6;
+}
+
+/* selected option */
 .opt.selected {
-  border-color: var(--accent);
   background: #eef5ff;
+  border-color: var(--accent);
 }
 
 /* Radio Circle styling */
@@ -1400,22 +1408,40 @@ function renderQuestion(i) {
     const div = document.createElement("div");
     div.className = "opt";
 
+
     if (isQuiz) {
-      if (isSelected) div.classList.add("selected");
-      div.onclick = () => selectOption(q, optionIndex, div);
-    } else {
-      div.style.cursor = "default";
-      if (isCorrectAns) {
-        div.classList.add("correct");
-        div.style.backgroundColor = "#e6f7ee";
-        div.style.borderColor = "#2e7d32";
-      }
-      if (isSelected && !isCorrectAns) {
-        div.classList.add("wrong");
-        div.style.backgroundColor = "#fdeaea";
-        div.style.borderColor = "#c82d3f";
-      }
+  if (isSelected) div.classList.add("selected");
+
+  if (window.innerWidth < 992) {
+    // 📱 Mobile: full row clickable
+    div.onclick = () => selectOption(q, optionIndex, div);
+  } else {
+    // 🖥 Desktop: ONLY radio clickable
+    div.onclick = null;
+
+    const radio = div.querySelector(".custom-radio");
+    if (radio) {
+      radio.onclick = (e) => {
+        e.stopPropagation();
+        selectOption(q, optionIndex, div);
+      };
     }
+  }
+
+} else {
+  div.style.cursor = "default";
+  if (isCorrectAns) {
+    div.classList.add("correct");
+    div.style.backgroundColor = "#e6f7ee";
+    div.style.borderColor = "#2e7d32";
+  }
+  if (isSelected && !isCorrectAns) {
+    div.classList.add("wrong");
+    div.style.backgroundColor = "#fdeaea";
+    div.style.borderColor = "#c82d3f";
+  }
+}
+
 
     // 🖼️ OPTION IMAGE RENDER (40% size)
     const optImgKey = `option_image_${optionIndex}`;
