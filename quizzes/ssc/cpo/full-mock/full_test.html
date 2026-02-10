@@ -1450,6 +1450,26 @@ function renderQuestion(i) {
 
     const div = document.createElement("div");
     div.className = "opt";
+
+
+    // 🖼️ OPTION IMAGE RENDER (40% size)
+    const optImgKey = `option_image_${optionIndex}`;
+    let optImgHtml = "";
+    if (q[optImgKey] && q[optImgKey].trim() !== "") {
+      optImgHtml = `<div style="margin-top:8px;"><img src="${q[optImgKey]}" style="width:40%; height:auto; border-radius:4px; border:1px solid #eee;"></div>`;
+    }
+
+    div.innerHTML = `
+      <div class="custom-radio"></div>
+      <div style="flex:1">
+        <div class="opt-text">${getLangText(q[key])}</div>
+        ${optImgHtml}
+      </div>
+    `;
+
+    optsContainer.appendChild(div);
+    normalizeMathForQuiz(div.querySelector(".opt-text"));
+  });
 // AFTER div.innerHTML is set 👇
 
 if (isQuiz) {
@@ -1489,26 +1509,6 @@ if (isQuiz) {
 }
 
 
-
-
-    // 🖼️ OPTION IMAGE RENDER (40% size)
-    const optImgKey = `option_image_${optionIndex}`;
-    let optImgHtml = "";
-    if (q[optImgKey] && q[optImgKey].trim() !== "") {
-      optImgHtml = `<div style="margin-top:8px;"><img src="${q[optImgKey]}" style="width:40%; height:auto; border-radius:4px; border:1px solid #eee;"></div>`;
-    }
-
-    div.innerHTML = `
-      <div class="custom-radio"></div>
-      <div style="flex:1">
-        <div class="opt-text">${getLangText(q[key])}</div>
-        ${optImgHtml}
-      </div>
-    `;
-
-    optsContainer.appendChild(div);
-    normalizeMathForQuiz(div.querySelector(".opt-text"));
-  });
 
   // 5. Render Explanation (Only in Solution Mode)
   const expBox = el("explanation");
