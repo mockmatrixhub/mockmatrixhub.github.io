@@ -1243,31 +1243,54 @@ function autoSubmitSection() {
     autoSubmitQuiz();
   }
 }
-
-
 function switchSection(idx) {
 
+  const secName = SECTION_NAMES[idx];
+
+  // ===============================
+  // 🔵 SOLUTION MODE (FREE NAVIGATION)
+  // ===============================
+  if (!isQuiz) {
+    currentSectionIdx = idx;
+    QUESTIONS = SECTIONS[secName];
+    current = 0;
+
+    document.querySelectorAll('.sec-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', i === idx);
+      btn.disabled = false; // 🔓 all enabled in solution mode
+    });
+
+    buildPalette();
+    renderQuestion(0);
+    updatePaletteLegend();
+    return;
+  }
+
+  // ===============================
+  // 🟢 QUIZ MODE (STRICT FLOW)
+  // ===============================
+
+  // ❌ Block ANY manual section change
+  if (idx !== currentSectionIdx) {
+    alert("Please submit the current section to proceed.");
+    return;
+  }
+
   // ❌ Prevent reopening submitted sections
-  if (completedSections.includes(SECTION_NAMES[idx])) {
+  if (completedSections.includes(secName)) {
     alert("This section is already submitted.");
     return;
   }
-if (idx < currentSectionIdx) {
-  alert("You cannot go back to previous sections.");
-  return;
-}
 
+  // ✅ Allowed: stay in current section
   currentSectionIdx = idx;
-  const sName = SECTION_NAMES[idx];
-
-  // Load section questions
-  QUESTIONS = SECTIONS[sName];
+  QUESTIONS = SECTIONS[secName];
   current = 0;
 
-  // Update Section Button UI
+  // 🔒 Lock all other section buttons
   document.querySelectorAll('.sec-btn').forEach((btn, i) => {
     btn.classList.toggle('active', i === idx);
-    btn.disabled = i < idx; // ⛔ lock previous sections
+    btn.disabled = i !== idx;
   });
 
   buildPalette();
@@ -1275,6 +1298,8 @@ if (idx < currentSectionIdx) {
   updatePaletteSubmitButtons();
   saveQuizState();
 }
+
+
 function moveToNextSection() {
   currentSectionIdx++;
   sectionSecondsLeft = 0; // reset for next section
