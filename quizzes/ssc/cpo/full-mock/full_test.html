@@ -939,6 +939,7 @@ mjx-container { font-family: inherit !important; font-size: 1em; overflow-x: aut
         <tr style="background: #f1f5f9; color: #444;">
           <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Section Name</th>
           <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Questions</th>
+          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Time (Min)</th>
           <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Marks</th>
           <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Negative</th>
         </tr>
@@ -1135,7 +1136,7 @@ let TOTAL_TIME_SECONDS = 0;
 let current = 0;
 let answers = {};
 let marked = {};
-let seconds = 0;              // Changed from placeholder
+let seconds = 0; // legacy placeholder – DO NOT USE
 let timerInterval = null;
 let isQuiz = true;
 let LAST_RESULT_HTML = "";
@@ -1245,6 +1246,10 @@ function switchSection(idx) {
     alert("This section is already submitted.");
     return;
   }
+if (idx < currentSectionIdx) {
+  alert("You cannot go back to previous sections.");
+  return;
+}
 
   currentSectionIdx = idx;
   const sName = SECTION_NAMES[idx];
@@ -1504,7 +1509,7 @@ function submitQuiz(isAuto = false) {
 
   // 2. 🛑 Stop Timer & Hide Quiz UI
   if (timerInterval) clearInterval(timerInterval);
-  const timeTakenSeconds = TOTAL_TIME_SECONDS - seconds;
+let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSeconds += t);
 
   document.getElementById("mainHeader").style.display = "none";
   document.getElementById("nameContainer").style.display = "none";
@@ -2620,6 +2625,11 @@ function updatePaletteLegend() {
 function updatePaletteSubmitButtons() {
   const isLast = currentSectionIdx === SECTION_NAMES.length - 1;
   const secBtn = el("palSectionSubmitBtn");
+  
+if (!isQuiz) {
+  secBtn.style.display = "none";
+  return;
+}
 
   if (secBtn) {
     secBtn.style.display = isLast ? "none" : "block";
