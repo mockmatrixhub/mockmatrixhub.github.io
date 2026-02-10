@@ -1179,7 +1179,7 @@ function fmt(s){
 // Save current progress to LocalStorage
 function saveQuizState(){
   // Don't save state if we are just viewing solutions
-  if (!isQuiz || document.body.classList.contains("mode-solution")) return;
+  if(!isQuiz) return;
   const state = {
     current,
     answers,
@@ -1980,19 +1980,7 @@ function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, un
     </div>
   </div>`;
 }
-  function resetForSolutionMode() {
-   if (isQuiz) return;
-  // ✅ always start from first section
-  currentSectionIdx = 0;
-  current = 0;
-  QUESTIONS = SECTIONS[SECTION_NAMES[0]];
-
-  // ✅ solution mode = free navigation
-  document.querySelectorAll(".sec-btn").forEach((btn, i) => {
-    btn.disabled = false;
-    btn.classList.toggle("active", i === 0);
-  });
-}
+ 
 
 
 // ===============================
@@ -2004,8 +1992,19 @@ function renderComparisonBar(label, userVal, maxVal, topperVal, maxTopperVal, un
 function enterSolutionMode() {
   // 1. Switch Flags
   isQuiz = false;
+// 🔴 REQUIRED FIX: force-enable ALL buttons every time
+    document.querySelectorAll('.sec-btn').forEach((btn, i) => {
+      btn.disabled = false;
+      btn.classList.toggle('active', i === idx);
+    });
 
-  resetForSolutionMode();
+  // 🔁 HARD RESET OF NAVIGATION STATE
+  currentSectionIdx = 0;
+  current = 0;
+
+  // 🔁 FORCE FIRST SECTION DATA
+  QUESTIONS = SECTIONS[SECTION_NAMES[0]];
+
  document.body.classList.add("mode-solution");
   document.body.classList.remove("mode-quiz");
   
