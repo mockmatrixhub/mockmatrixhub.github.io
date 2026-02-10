@@ -357,15 +357,15 @@ h1 {
   background: var(--accent);
   border-radius: 50%;
 }
-
-/* Right option text column */
 .opt-text {
   padding: 10px 14px;
-  display: flex;
-  align-items: center;
   font-size: 15px;
   color: #222;
+  display: block;        /* ✅ REQUIRED */
+  line-height: 1.6;
 }
+
+
 
 /* Selected row background */
 .opt.selected {
@@ -1451,25 +1451,25 @@ function renderQuestion(i) {
     const div = document.createElement("div");
     div.className = "opt";
 
+// AFTER div.innerHTML is set 👇
 
-    if (isQuiz) {
+if (isQuiz) {
   if (isSelected) div.classList.add("selected");
 
   if (window.innerWidth < 992) {
-    // 📱 Mobile: full row clickable
+    // 📱 mobile → full row
     div.onclick = () => selectOption(q, optionIndex, div);
   } else {
-    // 🖥 Desktop: ONLY radio clickable
+    // 🖥 desktop → only radio
     div.onclick = null;
-
     const radio = div.querySelector(".custom-radio");
-    if (radio) {
-      radio.onclick = (e) => {
-        e.stopPropagation();
-        selectOption(q, optionIndex, div);
-      };
-    }
+    radio.onclick = (e) => {
+      e.stopPropagation();
+      selectOption(q, optionIndex, div);
+    };
   }
+}
+
 
 } else {
   div.style.cursor = "default";
