@@ -1650,8 +1650,23 @@ sectionalBarsHTML += `
 
   ${renderComparisonBar("Score", d.score, d.total, topperSec.score, d.total)}
   ${renderComparisonBar("Accuracy", accuracy, 100, topperAccuracy, 100, "%")}
-  ${renderComparisonBar("Correct", d.correct, d.total, topperSec.correct, d.total)}
-  ${renderComparisonBar("Wrong", d.wrong, d.total, topperSec.wrong, d.total, "", true)}
+  ${renderComparisonBar(
+  "Correct",
+  d.correct,
+  SECTIONS[name].length,
+  topperSec.correct,
+  SECTIONS[name].length
+)}
+${renderComparisonBar(
+  "Wrong",
+  d.wrong,
+  SECTIONS[name].length,
+  topperSec.wrong,
+  SECTIONS[name].length,
+  "",
+  true
+)}
+
   ${renderComparisonBar(
   "Time Taken",
   d.timeTaken,
