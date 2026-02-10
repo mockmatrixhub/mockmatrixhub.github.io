@@ -1251,13 +1251,18 @@ function switchSection(idx) {
   // 🔵 SOLUTION MODE (FREE NAVIGATION)
   // ===============================
   if (!isQuiz) {
+
+    // 🔴 REQUIRED FIX: guard against invalid index
+    if (!SECTIONS[secName]) return;
+
     currentSectionIdx = idx;
     QUESTIONS = SECTIONS[secName];
     current = 0;
 
+    // 🔴 REQUIRED FIX: force-enable ALL buttons every time
     document.querySelectorAll('.sec-btn').forEach((btn, i) => {
+      btn.disabled = false;
       btn.classList.toggle('active', i === idx);
-      btn.disabled = false; // 🔓 all enabled in solution mode
     });
 
     buildPalette();
@@ -1289,8 +1294,8 @@ function switchSection(idx) {
 
   // 🔒 Lock all other section buttons
   document.querySelectorAll('.sec-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', i === idx);
     btn.disabled = i !== idx;
+    btn.classList.toggle('active', i === idx);
   });
 
   buildPalette();
@@ -1298,6 +1303,7 @@ function switchSection(idx) {
   updatePaletteSubmitButtons();
   saveQuizState();
 }
+
 
 
 function moveToNextSection() {
@@ -1740,7 +1746,7 @@ sectionalTableHtml += `</table></div></div>`;
         <div class="card-dashboard score-summary">
           <div class="score-item"><h4>🏆 Rank</h4><p>${rankData.rank} / ${rankData.total}</p></div>
           <div class="score-item"><h4>📊 Percentile</h4><p>${rankData.percentile}%</p></div>
-          <div class="score-item"><h4>🧮 Score</h4><p>${totalMarks}</p></div>
+          <div class="score-item"><h4>🧮 Score</h4><p>${totalMarks} / ${maxTotalMarks}</p></div>
           <div class="score-item"><h4>⏱ Time</h4><p>${timeFormatted}</p></div>
         </div>
 
@@ -1820,6 +1826,7 @@ resBox.querySelectorAll(".bar-section").forEach(sec => {
         answers,
         marked,
         current: 0,
+        currentSectionIdx: 0,
         sectionalData: sectionalDataForFirebase,
         totalMarks,
         timeTakenSeconds,
@@ -2348,7 +2355,7 @@ function showAttempt(attempt) {
         <div class="card-dashboard score-summary">
           <div class="score-item"><h4>🏆 Rank</h4><p>${rankData.rank} / ${rankData.total}</p></div>
           <div class="score-item"><h4>📊 Percentile</h4><p>${rankData.percentile}%</p></div>
-          <div class="score-item"><h4>🧮 Score</h4><p>${attempt.score}</p></div>
+          <div class="score-item"><h4>🧮 Score</h4><p>${attempt.score} / ${attempt.total}</p></div>
           <div class="score-item"><h4>⏱ Time</h4><p>${fmt(attempt.timeTaken)}</p></div>
         </div>
 
@@ -2718,6 +2725,9 @@ function init(){
       answers = data.answers || {};
       marked  = data.marked  || {};
       current = data.current || 0;
+      currentSectionIdx = data.currentSectionIdx ?? 0;
+QUESTIONS = SECTIONS[SECTION_NAMES[currentSectionIdx]];
+
 
       el("welcomeScreen").style.display = "none";
       el("mainHeader").style.display = "none";
