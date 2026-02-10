@@ -1567,6 +1567,9 @@ let timeTakenSeconds = 0; Object.values(sectionTime).forEach(t => timeTakenSecon
   const attempted = totalCorrect + totalWrong;
   const accuracy = attempted ? ((totalCorrect / attempted) * 100).toFixed(2) : "0.00";
   const timeFormatted = fmt(timeTakenSeconds);
+  const totalAllowedTime = Object.values(SECTION_TIMERS)
+  .reduce((sum, t) => sum + t, 0);
+
 
   // 4. 📦 Prepare Data Payload
   const firebasePayload = {
@@ -1650,12 +1653,12 @@ sectionalBarsHTML += `
   ${renderComparisonBar("Correct", d.correct, d.total, topperSec.correct, d.total)}
   ${renderComparisonBar("Wrong", d.wrong, d.total, topperSec.wrong, d.total, "", true)}
   ${renderComparisonBar(
-    "Time Taken",
-    d.timeTaken,
-    TOTAL_TIME_SECONDS,
-    topperSec.timeTaken,
-    TOTAL_TIME_SECONDS
-  )}
+  "Time Taken",
+  d.timeTaken,
+  SECTION_TIMERS[name],
+  topperSec.timeTaken,
+  SECTION_TIMERS[name]
+)}
 `;
   
 });
@@ -1715,8 +1718,13 @@ sectionalTableHtml += `</table></div></div>`;
           ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
           ${renderComparisonBar("Correct", totalCorrect, totalQuestionsCount, topperStats.correct, totalQuestionsCount)}
           ${renderComparisonBar("Wrong", totalWrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
-          ${renderComparisonBar("Time Taken", timeTakenSeconds, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
-
+          ${renderComparisonBar(
+  "Time Taken",
+  timeTakenSeconds,
+  totalAllowedTime,
+  topperStats.time,
+  totalAllowedTime
+)}
           <div id="sectionalBarsContainer">
             ${sectionalBarsHTML}
           </div>
@@ -2046,7 +2054,9 @@ async function refreshLatestRankOnDemand(btn) {
   try {
     // 1. Define payload FIRST
     const payload = resultData.firebasePayload;
-    
+    const totalAllowedTime = Object.values(SECTION_TIMERS)
+  .reduce((sum, t) => sum + t, 0);
+
     // 2. Define resultsContainer SECOND
     const resultsContainer = document.getElementById("results");
 
@@ -2121,7 +2131,13 @@ async function refreshLatestRankOnDemand(btn) {
           ${renderComparisonBar("Accuracy", myAcc, 100, topperAcc, 100, "%")}
           ${renderComparisonBar("Correct", mySec.correct, mySec.total / scorePerQ, topperSec.correct, mySec.total / scorePerQ)}
           ${renderComparisonBar("Wrong", mySec.wrong, mySec.total / scorePerQ, topperSec.wrong, mySec.total / scorePerQ, "", true)}
-          ${renderComparisonBar("Time Taken", mySec.timeTaken, TOTAL_TIME_SECONDS || 3600, topperSec.timeTaken, TOTAL_TIME_SECONDS || 3600)}
+          ${renderComparisonBar(
+  "Time Taken",
+  mySec.timeTaken,
+  SECTION_TIMERS[name] || mySec.timeTaken || 1,
+  topperSec.timeTaken,
+  SECTION_TIMERS[name] || mySec.timeTaken || 1
+)}
         `;
       });
 
@@ -2131,7 +2147,13 @@ async function refreshLatestRankOnDemand(btn) {
         ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
         ${renderComparisonBar("Correct", payload.correct, totalQuestionsCount, topperStats.correct, totalQuestionsCount)}
         ${renderComparisonBar("Wrong", payload.wrong, totalQuestionsCount, topperStats.wrong, totalQuestionsCount, "", true)}
-        ${renderComparisonBar("Time Taken", payload.timeTaken, TOTAL_TIME_SECONDS || 3600, topperStats.time, TOTAL_TIME_SECONDS || 3600)}
+        ${renderComparisonBar(
+  "Time Taken",
+  payload.timeTaken,
+  totalAllowedTime,
+  topperStats.time,
+  totalAllowedTime
+)}
         <div id="sectionalBarsContainer">${secBarsHTML}</div>
       `;
       
