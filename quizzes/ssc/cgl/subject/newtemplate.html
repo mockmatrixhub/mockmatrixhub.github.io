@@ -2034,7 +2034,11 @@ async function refreshLatestRankOnDemand(btn) {
       }
     });
 
-    // 7. Persist and Finish
+    // 🔓 STEP A: RESET BUTTON STATE FIRST
+    btn.disabled = false;
+    btn.textContent = "🔄 GET LIVE UPDATED RANK";
+
+    // 💾 STEP B: THEN SAVE TO LOCAL STORAGE
     LAST_RESULT_HTML = resultsContainer.innerHTML;
     localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
       ...resultData,
@@ -2042,14 +2046,7 @@ async function refreshLatestRankOnDemand(btn) {
     }));
 
     alert("Rank and Scores updated from latest data!");
-
-  } catch (err) {
-    console.error("Rank Update Error:", err);
-    alert("Could not update ranks. Please check your connection.");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "🔄 GET LIVE UPDATED RANK";
-  }
+   
 }
 // ===============================
 // 📜 HISTORY & ATTEMPT REVIEW
@@ -2393,6 +2390,15 @@ function init(){
       res.innerHTML = data.resultHTML;
       res.style.display = "block";
       LAST_RESULT_HTML = data.resultHTML;
+
+      // 🔓 FIX: Force reset the button state after page reload
+setTimeout(() => {
+  const liveBtn = document.querySelector("button[onclick*='refreshLatestRankOnDemand']");
+  if (liveBtn) {
+    liveBtn.disabled = false;
+    liveBtn.textContent = "🔄 GET LIVE UPDATED RANK";
+  }
+}, 50);
 
       // 🔧 FIX: Restore mm:ss format in bars after reload
       res.querySelectorAll(".bar-section").forEach(sec => {
