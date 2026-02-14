@@ -1906,8 +1906,6 @@ if (liveBtn) {
     document.getElementById("floatBar").style.display = "none";
   }
 }
-
-
 // Refresh Rank Button Logic (STRICT submitQuiz aligned + Time Taken)
 async function refreshLatestRankOnDemand(btn) {
   const resultData = JSON.parse(localStorage.getItem(QUIZ_RESULT_KEY));
@@ -1965,7 +1963,7 @@ async function refreshLatestRankOnDemand(btn) {
     const rankData = await getRankAndPercentile(
       QUIZ_ID,
       newTotalMarks,
-      resultData.timeTaken, // timeTaken doesn't change
+      resultData.timeTaken, 
       resultData.submittedAt
     );
 
@@ -2034,25 +2032,24 @@ async function refreshLatestRankOnDemand(btn) {
       }
     });
 
-     } catch (err) {
+    // 💾 STEP B: SAVE TO LOCAL STORAGE (Inside Try to prevent ReferenceError)
+    LAST_RESULT_HTML = resultsContainer.innerHTML;
+    localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
+      ...resultData, // 🔥 CRITICAL: Maintains timeTaken and submittedAt to prevent nan:nan
+      resultHTML: LAST_RESULT_HTML
+    }));
+
+    alert("Rank and Scores updated from latest data!");
+
+  } catch (err) {
     console.error("Rank Update Error:", err);
     alert("Could not update ranks. Please check your connection.");
   } finally {
     btn.disabled = false;
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
-
-
-    // 💾 STEP B: THEN SAVE TO LOCAL STORAGE
-    LAST_RESULT_HTML = resultsContainer.innerHTML;
-    localStorage.setItem(QUIZ_RESULT_KEY, JSON.stringify({
-      ...resultData,
-      resultHTML: LAST_RESULT_HTML
-    }));
-
-    alert("Rank and Scores updated from latest data!");
-   
 }
+
 // ===============================
 // 📜 HISTORY & ATTEMPT REVIEW
 // ===============================
