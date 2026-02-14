@@ -1963,9 +1963,11 @@ async function refreshLatestRankOnDemand(btn) {
     const rankData = await getRankAndPercentile(
       QUIZ_ID,
       newTotalMarks,
+      resultData.timeTaken || resultData.timeTakenSeconds, 
       resultData.timeTaken, 
       resultData.submittedAt
     );
+  
 
     // 5. UI Refresh: Update Score Summary & Attempt Summary Boxes
     document.querySelector(".score-summary .score-item:nth-child(1) p").textContent = `${rankData.rank} / ${rankData.total}`;
@@ -1995,7 +1997,7 @@ async function refreshLatestRankOnDemand(btn) {
         ${renderComparisonBar("Accuracy", accuracy, 100, topperStats.accuracy, 100, "%")}
         ${renderComparisonBar("Correct", newCorrect, freshQuestions.length, topperStats.correct, freshQuestions.length)}
         ${renderComparisonBar("Wrong", newWrong, freshQuestions.length, topperStats.wrong, freshQuestions.length, "", true)}
-        ${renderComparisonBar("Time Taken", resultData.timeTaken, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
+        ${renderComparisonBar("Time Taken", resultData.timeTaken || resultData.timeTakenSeconds, TOTAL_TIME_SECONDS, topperStats.time, TOTAL_TIME_SECONDS)}
       `;
     }
 
