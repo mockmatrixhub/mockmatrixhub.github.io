@@ -2165,13 +2165,16 @@ async function refreshLatestRankOnDemand(btn) {
       newTotalMarks += sScore; newMaxTotalMarks += sMax;
     });
 
-    // 3. Firebase Sync: Update global record so rank remains accurate
-    await db.ref("quiz_results/" + QUIZ_ID + "/" + DEVICE_ID).update({
+    // 3. Firebase Sync: Update BOTH results and history so rank remains accurate
+    const fbUpdate = {
       score: newTotalMarks,
       correct: newTotalCorrect,
       wrong: newTotalWrong,
       sections: newSectionalData
-    });
+    };
+
+    await db.ref("quiz_results/" + QUIZ_ID + "/" + DEVICE_ID).update(fbUpdate);
+    await db.ref("attempt_history/" + QUIZ_ID + "/" + DEVICE_ID + "/" + resultData.firebasePayload.submittedAt).update(fbUpdate);
 
     // Define payload with updated values for UI rendering
     const payload = {
@@ -2209,6 +2212,25 @@ async function refreshLatestRankOnDemand(btn) {
       attBoxes[1].textContent = payload.wrong;
       attBoxes[2].textContent = (freshData.meta.total_questions || totalQuestionsCount) - (payload.correct + payload.wrong);
       attBoxes[3].textContent = payload.correct + payload.wrong;
+    }
+
+    // UPDATE: Sectional Summary Table Rows
+    const analysisTable = resultsContainer.querySelector(".analysis-table");
+    if (analysisTable) {
+      const rows = analysisTable.querySelectorAll("tr");
+      freshNames.forEach(name => {
+        const d = newSectionalData[name];
+        // Find row by section name text
+        for (let row of rows) {
+          if (row.cells[0] && row.cells[0].textContent.trim() === name) {
+            row.cells[1].textContent = d.score;
+            row.cells[2].textContent = d.correct;
+            row.cells[3].textContent = d.wrong;
+            row.cells[4].textContent = d.unattempted;
+            break;
+          }
+        }
+      });
     }
 
     // 2. Fetch Topper Data
@@ -2306,8 +2328,7 @@ async function refreshLatestRankOnDemand(btn) {
     btn.disabled = false;
     btn.textContent = "🔄 GET LIVE UPDATED RANK";
   }
-} 
-
+}
 // Helper to fix the time formatting in bars
 function formatTimeValues(container) {
   container.querySelectorAll(".bar-section").forEach(sec => {
