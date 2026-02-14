@@ -2026,7 +2026,8 @@ async function refreshLatestRankOnDemand(btn) {
       if (label === "Time Taken") {
         const values = sec.querySelectorAll("span[style*='text-align:right']");
         if (values.length === 2) {
-          values[0].textContent = fmt(resultData.timeTaken);
+          // Use timeTakenSeconds if timeTaken is undefined (fixes NaN after refresh)
+          values[0].textContent = fmt(resultData.timeTaken || resultData.timeTakenSeconds);
           values[1].textContent = fmt(topperStats.time);
         }
       }
